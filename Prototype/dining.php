@@ -4,9 +4,9 @@ require_once 'includes/functions.php';
 
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 1;
 $dining = [
-    1 => ['name' => 'The Sky Lounge', 'category' => 'FINE DINING', 'image' => 'dining-1.jpg', 'desc' => 'Exquisite flavors paired with breathtaking panoramic views of the city skyline.'],
-    2 => ['name' => 'Artisan Café', 'category' => 'CASUAL', 'image' => 'dining-1.jpg', 'desc' => 'Freshly brewed coffee and hand-crafted pastries in a relaxed, cozy atmosphere.'],
-    3 => ['name' => 'The Copper Bar', 'category' => 'BAR & GRILL', 'image' => 'dining-1.jpg', 'desc' => 'Premium spirits and signature cocktails served in an elegant, sophisticated setting.']
+    1 => ['name' => 'The Sky Lounge', 'category' => 'FINE DINING', 'image' => 'skylounge.jpg', 'desc' => 'Exquisite flavors paired with breathtaking panoramic views of the city skyline.'],
+    2 => ['name' => 'Artisan Café', 'category' => 'CASUAL', 'image' => 'cafe.jpg', 'desc' => 'Freshly brewed coffee and hand-crafted pastries in a relaxed, cozy atmosphere.'],
+    3 => ['name' => 'The Copper Bar', 'category' => 'BAR & GRILL', 'image' => 'copperbar.jpg', 'desc' => 'Premium spirits and signature cocktails served in an elegant, sophisticated setting.']
 ];
 
 $item = isset($dining[$id]) ? $dining[$id] : $dining[1];
@@ -21,8 +21,8 @@ include 'includes/header.php';
             <h2><?php echo h($item['name']); ?></h2>
         </div>
         
-        <div class="room-gallery-placeholder">
-            [ MEDIA: <?php echo h($item['image']); ?> ]
+        <div class="room-gallery-placeholder" style="padding: 0;">
+            <img src="pictures/<?php echo h($item['image']); ?>" alt="<?php echo h($item['name']); ?>" style="width: 100%; height: 100%; object-fit: cover;">
         </div>
         
         <div class="content" style="text-align: center; max-width: 700px; margin: 0 auto;">

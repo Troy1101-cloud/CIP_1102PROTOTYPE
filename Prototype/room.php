@@ -28,8 +28,8 @@ include 'includes/header.php';
             <h1><?php echo h($room['name']); ?></h1>
         </div>
         
-        <div class="room-gallery-placeholder">
-            <p>[ LARGE MEDIA PLACEHOLDER: <?php echo h($room['image']); ?> ]</p>
+        <div class="room-gallery-placeholder" style="padding: 0;">
+            <img src="pictures/<?php echo h($room['image']); ?>" alt="<?php echo h($room['name']); ?>" style="width: 100%; height: 100%; object-fit: cover;">
         </div>
 
         <div class="grid-3" style="grid-template-columns: 2fr 1fr; gap: 60px;">
