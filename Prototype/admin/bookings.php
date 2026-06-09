@@ -34,7 +34,7 @@ if ($filter_status !== 'all') {
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/css/styles.css">
+    <link rel="stylesheet" href="../assets/css/styles.css?v=<?php echo time(); ?>">
     <style>
         .admin-header { background: var(--primary-color); color: #fff; padding: 25px 0; border-bottom: 1px solid var(--accent-color); }
         .admin-nav { border-bottom: 1px solid var(--border-color); margin-bottom: 40px; background: var(--white); }
