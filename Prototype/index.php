@@ -6,7 +6,6 @@ include 'includes/header.php';
 $rooms = get_all_data('rooms');
 ?>
 
-<!-- Hero Section -->
 <section id="home" class="hero">
     <div class="hero-content">
         <p class="hero-est">&mdash; EST. 2024 &mdash;</p>
@@ -18,8 +17,7 @@ $rooms = get_all_data('rooms');
             <a href="#amenities" class="btn-secondary">VIEW AMENITIES</a>
         </div>
 
-        <!-- Compact Booking Search -->
-        <form action="search_rooms.php" method="POST" class="booking-search">
+                <form action="search_rooms.php" method="POST" class="booking-search">
             <div class="form-group">
                 <label for="check-in">Check-In</label>
                 <input type="date" id="check-in" name="check_in" required>
@@ -42,7 +40,6 @@ $rooms = get_all_data('rooms');
     </div>
 </section>
 
-<!-- Rooms Section -->
 <section id="rooms" class="section-padding">
     <div class="container">
         <div class="section-title">
@@ -57,7 +54,6 @@ $rooms = get_all_data('rooms');
     </div>
 </section>
 
-<!-- Dining Section -->
 <section id="dining" class="section-padding bg-light" style="background-color: var(--bg-light);">
     <div class="container">
         <div class="section-title">
@@ -67,7 +63,7 @@ $rooms = get_all_data('rooms');
         <div class="grid-3">
             <article class="room-card">
                 <div class="room-image">
-                    <img src="assets/images/dining-1.jpg" alt="Signature Restaurant">
+                    <img src="pictures/skylounge.jpg" alt="Signature Restaurant">
                     <span class="category-label">FINE DINING</span>
                 </div>
                 <div class="room-content">
@@ -78,7 +74,7 @@ $rooms = get_all_data('rooms');
             </article>
             <article class="room-card">
                 <div class="room-image">
-                    <img src="assets/images/dining-1.jpg" alt="Café">
+                    <img src="pictures/cafe.jpg" alt="Café">
                     <span class="category-label">CASUAL</span>
                 </div>
                 <div class="room-content">
@@ -89,7 +85,7 @@ $rooms = get_all_data('rooms');
             </article>
             <article class="room-card">
                 <div class="room-image">
-                    <img src="assets/images/dining-1.jpg" alt="Bar">
+                    <img src="pictures/copperbar.jpg" alt="Bar">
                     <span class="category-label">BAR & GRILL</span>
                 </div>
                 <div class="room-content">
@@ -102,7 +98,6 @@ $rooms = get_all_data('rooms');
     </div>
 </section>
 
-<!-- Amenities Section -->
 <section id="amenities" class="section-padding">
     <div class="container">
         <div class="section-title">
@@ -112,7 +107,7 @@ $rooms = get_all_data('rooms');
         <div class="grid-3">
             <article class="room-card">
                 <div class="room-image">
-                    <img src="assets/images/amenity-1.jpg" alt="Pool">
+                    <img src="pictures/infinity.jpg" alt="Pool">
                     <span class="category-label">RECREATION</span>
                 </div>
                 <div class="room-content">
@@ -123,7 +118,7 @@ $rooms = get_all_data('rooms');
             </article>
             <article class="room-card">
                 <div class="room-image">
-                    <img src="assets/images/amenity-1.jpg" alt="Gym">
+                    <img src="pictures/fitness.jpg" alt="Gym">
                     <span class="category-label">WELLNESS</span>
                 </div>
                 <div class="room-content">
@@ -134,7 +129,7 @@ $rooms = get_all_data('rooms');
             </article>
             <article class="room-card">
                 <div class="room-image">
-                    <img src="assets/images/amenity-1.jpg" alt="Spa">
+                    <img src="pictures/spa.jpg" alt="Spa">
                     <span class="category-label">WELLNESS</span>
                 </div>
                 <div class="room-content">
