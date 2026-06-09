@@ -17,7 +17,7 @@ $rooms = get_all_data('rooms');
             <a href="#amenities" class="btn-secondary">VIEW AMENITIES</a>
         </div>
 
-                <form action="search_rooms.php" method="POST" class="booking-search">
+        <form action="search_rooms.php" method="POST" class="booking-search">
             <div class="form-group">
                 <label for="check-in">Check-In</label>
                 <input type="date" id="check-in" name="check_in" required>
@@ -47,9 +47,39 @@ $rooms = get_all_data('rooms');
             <h2>FEATURED ROOMS</h2>
         </div>
         <div class="grid-3">
-            <?php foreach($rooms as $room): ?>
-                <?php echo render_room_card($room); ?>
-            <?php endforeach; ?>
+            <article class="room-card">
+                <div class="room-image">
+                    <img src="pictures/standard.jpg" alt="Standard Room">
+                    <span class="category-label">COMFORT</span>
+                </div>
+                <div class="room-content">
+                    <h3>Standard Room</h3>
+                    <p>A cozy and well-appointed room perfect for short stays and business travelers.</p>
+                    <a href="room.php?id=1" class="btn-link">VIEW DETAILS &rarr;</a>
+                </div>
+            </article>
+            <article class="room-card">
+                <div class="room-image">
+                    <img src="pictures/deluxe.jpg" alt="Deluxe Room">
+                    <span class="category-label">LUXURY</span>
+                </div>
+                <div class="room-content">
+                    <h3>Deluxe Room</h3>
+                    <p>Spacious accommodations with premium amenities for a truly relaxing experience.</p>
+                    <a href="room.php?id=2" class="btn-link">VIEW DETAILS &rarr;</a>
+                </div>
+            </article>
+            <article class="room-card">
+                <div class="room-image">
+                    <img src="pictures/grandsuite.jpg" alt="Grand Suite">
+                    <span class="category-label">PREMIUM</span>
+                </div>
+                <div class="room-content">
+                    <h3>Grand Suite</h3>
+                    <p>Our most opulent suite offering separate living areas and breathtaking city views.</p>
+                    <a href="room.php?id=3" class="btn-link">VIEW DETAILS &rarr;</a>
+                </div>
+            </article>
         </div>
     </div>
 </section>
