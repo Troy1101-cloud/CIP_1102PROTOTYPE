@@ -56,6 +56,7 @@ function save_booking($data) {
  * Render a room card HTML
  */
 function render_room_card($room) {
+    // Correct path to the pictures folder in the root directory
     $img_path = "pictures/" . $room['image'];
     $detail_url = "room.php?id=" . $room['id'];
     $booking_url = "room.php?id=" . $room['id'] . "#booking";

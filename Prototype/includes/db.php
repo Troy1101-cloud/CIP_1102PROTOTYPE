@@ -44,7 +44,7 @@ function init_db() {
                 'category' => 'Premium Accommodation',
                 'description' => 'Spacious and elegantly appointed, the Deluxe Room offers sweeping city views with premium furnishings.',
                 'price' => 250,
-                'image' => 'room-1.jpg',
+                'image' => 'deluxe.jpg',
                 'amenities' => ['King Bed', 'City View', 'Mini Bar', 'Wi-Fi']
             ],
             [
@@ -53,16 +53,16 @@ function init_db() {
                 'category' => 'Signature Suite',
                 'description' => 'The Grand Suite features a separate living area, a private terrace, and butler service.',
                 'price' => 450,
-                'image' => 'room-2.jpg',
-                'amenities' => ['King Bed', 'Private Terrace', 'Butler Service', 'Living Room']
+                'image' => 'grandsuite.jpg',
+                'amenities' => ['King Bed', 'Private Terrace', 'Butler Service', 'Living Room', 'Wi-Fi']
             ],
             [
                 'id' => 3,
                 'name' => 'Standard Room',
                 'category' => 'Classic Comfort',
                 'description' => 'A comfortable and well-appointed room ideal for both business and leisure travelers.',
-                'price' => 150,
-                'image' => 'room-1.jpg',
+                'price' => 125,
+                'image' => 'standard.jpg',
                 'amenities' => ['Queen Bed', 'Work Desk', 'Wi-Fi']
             ]
         ];
