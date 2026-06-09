@@ -33,64 +33,69 @@ include 'includes/header.php';
 <section class="section-padding">
     <div class="container">
         <div class="section-title">
+            <span>FINAL STEP</span>
             <h2>CHECKOUT</h2>
             <p>Please review your booking details and select a payment method.</p>
         </div>
 
-        <div class="grid-3" style="grid-template-columns: 2fr 1fr;">
+        <div class="grid-3" style="grid-template-columns: 2fr 1fr; gap: 60px;">
             <div class="checkout-main">
-                <div class="booking-summary" style="border: 1px solid var(--border-color); padding: 30px; margin-bottom: 30px;">
-                    <h3>Booking Summary</h3>
-                    <hr style="margin: 20px 0; border: 0; border-top: 1px solid var(--border-color);">
-                    <div style="display: flex; gap: 20px;">
-                        <div style="flex: 1;">
-                            <p><strong>Room:</strong> <?php echo h($room['name']); ?></p>
-                            <p><strong>Guest:</strong> <?php echo h($booking['first_name'] . ' ' . $booking['last_name']); ?></p>
-                            <p><strong>Email:</strong> <?php echo h($booking['email']); ?></p>
+                <div class="booking-card" style="position: static; padding: 40px; margin-bottom: 40px;">
+                    <div class="section-title" style="text-align: left; margin-bottom: 30px;">
+                        <span>RESERVATION</span>
+                        <h3>Booking Summary</h3>
+                    </div>
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+                        <div>
+                            <p style="margin-bottom: 10px;"><strong style="color: var(--secondary-color); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Room:</strong><br><span style="font-family: var(--font-header); font-size: 1.2rem; color: var(--primary-color);"><?php echo h($room['name']); ?></span></p>
+                            <p style="margin-bottom: 10px;"><strong style="color: var(--secondary-color); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Guest:</strong><br><?php echo h($booking['first_name'] . ' ' . $booking['last_name']); ?></p>
+                            <p><strong style="color: var(--secondary-color); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Email:</strong><br><?php echo h($booking['email']); ?></p>
                         </div>
-                        <div style="flex: 1;">
-                            <p><strong>Check-In:</strong> <?php echo h($booking['check_in']); ?></p>
-                            <p><strong>Check-Out:</strong> <?php echo h($booking['check_out']); ?></p>
-                            <p><strong>Guests:</strong> <?php echo h($booking['guests']); ?></p>
+                        <div>
+                            <p style="margin-bottom: 10px;"><strong style="color: var(--secondary-color); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Stay:</strong><br><?php echo h($booking['check_in']); ?> &mdash; <?php echo h($booking['check_out']); ?></p>
+                            <p><strong style="color: var(--secondary-color); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Occupancy:</strong><br><?php echo h($booking['guests']); ?> Adult(s)</p>
                         </div>
                     </div>
                 </div>
 
-                <div class="payment-selection" style="border: 1px solid var(--border-color); padding: 30px;">
-                    <h3>Select Payment Method</h3>
+                <div class="booking-card" style="position: static; padding: 40px;">
+                    <div class="section-title" style="text-align: left; margin-bottom: 30px;">
+                        <span>PAYMENT</span>
+                        <h3>Select Payment Method</h3>
+                    </div>
                     <form action="process_payment.php" method="POST" id="payment-form">
                         <input type="hidden" name="booking_id" value="<?php echo $booking_id; ?>">
                         
-                        <div class="payment-options" style="margin-top: 20px;">
-                            <label class="payment-option" style="display: block; padding: 15px; border: 1px solid var(--border-color); margin-bottom: 10px; cursor: pointer;">
+                        <div class="payment-options">
+                            <label class="payment-option" style="display: block; padding: 20px; border: 1px solid var(--border-color); margin-bottom: 15px; cursor: pointer; transition: all 0.3s;">
                                 <input type="radio" name="payment_method" value="credit_card" checked>
-                                <strong>Credit Card</strong>
-                                <p style="font-size: 0.8rem; color: var(--secondary-color);">Visa, Mastercard, AMEX</p>
+                                <strong style="margin-left: 10px; font-family: var(--font-header); letter-spacing: 1px;">Credit Card</strong>
+                                <p style="font-size: 0.8rem; color: var(--secondary-color); margin-top: 5px; margin-left: 28px;">Visa, Mastercard, AMEX</p>
                             </label>
                             
-                            <label class="payment-option" style="display: block; padding: 15px; border: 1px solid var(--border-color); margin-bottom: 10px; cursor: pointer;">
+                            <label class="payment-option" style="display: block; padding: 20px; border: 1px solid var(--border-color); margin-bottom: 15px; cursor: pointer; transition: all 0.3s;">
                                 <input type="radio" name="payment_method" value="ewallet">
-                                <strong>E-Wallets</strong>
-                                <p style="font-size: 0.8rem; color: var(--secondary-color);">GCash, Maya, MariBank</p>
+                                <strong style="margin-left: 10px; font-family: var(--font-header); letter-spacing: 1px;">E-Wallets</strong>
+                                <p style="font-size: 0.8rem; color: var(--secondary-color); margin-top: 5px; margin-left: 28px;">GCash, Maya, MariBank</p>
                             </label>
                             
-                            <label class="payment-option" style="display: block; padding: 15px; border: 1px solid var(--border-color); margin-bottom: 10px; cursor: pointer;">
+                            <label class="payment-option" style="display: block; padding: 20px; border: 1px solid var(--border-color); margin-bottom: 15px; cursor: pointer; transition: all 0.3s;">
                                 <input type="radio" name="payment_method" value="cash">
-                                <strong>Cash on Arrival</strong>
-                                <p style="font-size: 0.8rem; color: var(--secondary-color);">Pay at the front desk upon check-in</p>
+                                <strong style="margin-left: 10px; font-family: var(--font-header); letter-spacing: 1px;">Cash on Arrival</strong>
+                                <p style="font-size: 0.8rem; color: var(--secondary-color); margin-top: 5px; margin-left: 28px;">Pay at the front desk upon check-in</p>
                             </label>
                         </div>
 
-                        <div id="card-details" class="card-details" style="margin-top: 20px;">
-                            <div class="form-group" style="margin-bottom: 15px;">
+                        <div id="card-details" class="card-details" style="margin-top: 30px; background: var(--bg-light); padding: 30px; border: 1px solid var(--border-color);">
+                            <div class="form-group" style="margin-bottom: 20px;">
                                 <label>Cardholder Name</label>
                                 <input type="text" name="card_name" placeholder="Name on card">
                             </div>
-                            <div class="form-group" style="margin-bottom: 15px;">
+                            <div class="form-group" style="margin-bottom: 20px;">
                                 <label>Card Number</label>
                                 <input type="text" name="card_number" placeholder="XXXX XXXX XXXX XXXX">
                             </div>
-                            <div style="display: flex; gap: 10px;">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
                                 <div class="form-group">
                                     <label>Expiry Date</label>
                                     <input type="text" name="card_expiry" placeholder="MM/YY">
@@ -102,31 +107,32 @@ include 'includes/header.php';
                             </div>
                         </div>
 
-                        <button type="submit" name="submit_payment" class="btn-primary" style="width: 100%; margin-top: 30px;">COMPLETE PAYMENT</button>
+                        <button type="submit" name="submit_payment" class="btn-primary" style="width: 100%; margin-top: 40px;">COMPLETE RESERVATION</button>
                     </form>
                 </div>
             </div>
 
             <div class="checkout-sidebar">
-                <div class="price-breakdown" style="border: 1px solid var(--border-color); padding: 30px; background: var(--bg-light);">
-                    <h3>Total Amount</h3>
-                    <hr style="margin: 20px 0; border: 0; border-top: 1px solid var(--border-color);">
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                        <span>Room Rate</span>
-                        <span>$<?php echo h($room['price']); ?></span>
+                <div class="price-estimate" style="text-align: left; padding: 40px; margin: 0; position: sticky; top: 120px; border: 1px solid var(--border-color);">
+                    <div class="section-title" style="text-align: left; margin-bottom: 30px;">
+                        <span>SETTLEMENT</span>
+                        <h3>Total Amount</h3>
                     </div>
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                        <span>Service Fee</span>
-                        <span>$25.00</span>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                        <span style="font-size: 0.9rem; color: var(--secondary-color);">Room Rate</span>
+                        <span style="font-weight: 600;">$<?php echo h($room['price']); ?></span>
                     </div>
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 10px;">
-                        <span>Tax (12%)</span>
-                        <span>$<?php echo h($room['price'] * 0.12); ?></span>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                        <span style="font-size: 0.9rem; color: var(--secondary-color);">Service Fee</span>
+                        <span style="font-weight: 600;">$25.00</span>
                     </div>
-                    <hr style="margin: 20px 0; border: 0; border-top: 1px solid var(--border-color);">
-                    <div style="display: flex; justify-content: space-between; font-weight: 700; font-size: 1.2rem;">
-                        <span>Total</span>
-                        <span>$<?php echo h($room['price'] + 25 + ($room['price'] * 0.12)); ?></span>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 25px;">
+                        <span style="font-size: 0.9rem; color: var(--secondary-color);">Tax (12%)</span>
+                        <span style="font-weight: 600;">$<?php echo h($room['price'] * 0.12); ?></span>
+                    </div>
+                    <div style="border-top: 1px solid var(--border-color); padding-top: 25px; display: flex; justify-content: space-between; align-items: center;">
+                        <span style="font-family: var(--font-header); font-size: 1.2rem;">Total</span>
+                        <span style="font-family: var(--font-header); font-size: 1.8rem; color: var(--accent-color);">$<?php echo h($room['price'] + 25 + ($room['price'] * 0.12)); ?></span>
                     </div>
                 </div>
             </div>

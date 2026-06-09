@@ -24,52 +24,58 @@ include 'includes/header.php';
 ?>
 
 <section class="section-padding">
-    <div class="container" style="max-width: 800px;">
+    <div class="container" style="max-width: 1000px;">
         <div class="section-title">
+            <span>GET IN TOUCH</span>
             <h2>CONTACT US</h2>
             <p>We'd love to hear from you. Please fill out the form below.</p>
         </div>
 
         <?php if ($success_msg): ?>
-            <div style="background: #f0fdf4; color: var(--success-color); padding: 20px; border: 1px solid #bbf7d0; margin-bottom: 30px; border-radius: 4px;">
+            <div style="background: var(--bg-light); color: var(--accent-color); padding: 30px; border: 1px solid var(--accent-color); margin-bottom: 50px; text-align: center; font-family: var(--font-header); font-size: 1.2rem;">
                 <?php echo h($success_msg); ?>
             </div>
         <?php endif; ?>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+        <div class="grid-3" style="grid-template-columns: 1fr 1.5fr; gap: 80px;">
             <div class="contact-info">
-                <h3>Our Location</h3>
-                <p>123 Luxury Avenue, Paradise City</p>
+                <div class="section-title" style="text-align: left; margin-bottom: 30px;">
+                    <span>VISIT US</span>
+                    <h3>Our Location</h3>
+                </div>
+                <p style="font-size: 1.1rem; color: var(--primary-color); margin-bottom: 10px;">123 Luxury Avenue, Paradise City</p>
                 <p><strong>Phone:</strong> +1 (234) 567-890</p>
                 <p><strong>Email:</strong> info@ralmitrokij.com</p>
                 
-                <div style="background: #eee; height: 200px; margin-top: 30px; display: flex; align-items: center; justify-content: center;">
+                <div class="room-gallery-placeholder" style="height: 250px; margin-top: 40px;">
                     [ MAP PLACEHOLDER ]
                 </div>
             </div>
             
             <div class="contact-form">
-                <form action="contact.php" method="POST">
-                    <div class="form-group" style="margin-bottom: 20px;">
-                        <label for="name">Full Name</label>
-                        <input type="text" id="name" name="name" class="<?php echo isset($errors['name']) ? 'is-invalid' : ''; ?>" value="<?php echo isset($_POST['name']) ? h($_POST['name']) : ''; ?>">
-                        <?php if (isset($errors['name'])): ?><div class="error-message"><?php echo $errors['name']; ?></div><?php endif; ?>
-                    </div>
-                    
-                    <div class="form-group" style="margin-bottom: 20px;">
-                        <label for="email">Email Address</label>
-                        <input type="email" id="email" name="email" class="<?php echo isset($errors['email']) ? 'is-invalid' : ''; ?>" value="<?php echo isset($_POST['email']) ? h($_POST['email']) : ''; ?>">
-                        <?php if (isset($errors['email'])): ?><div class="error-message"><?php echo $errors['email']; ?></div><?php endif; ?>
-                    </div>
-                    
-                    <div class="form-group" style="margin-bottom: 20px;">
-                        <label for="message">Message</label>
-                        <textarea id="message" name="message" rows="5" class="<?php echo isset($errors['message']) ? 'is-invalid' : ''; ?>"><?php echo isset($_POST['message']) ? h($_POST['message']) : ''; ?></textarea>
-                        <?php if (isset($errors['message'])): ?><div class="error-message"><?php echo $errors['message']; ?></div><?php endif; ?>
-                    </div>
-                    
-                    <button type="submit" name="submit" class="btn-primary" style="width: 100%;">SUBMIT</button>
-                </form>
+                <div class="booking-card" style="position: static; padding: 40px;">
+                    <form action="contact.php" method="POST">
+                        <div class="form-group" style="margin-bottom: 25px;">
+                            <label for="name">Full Name</label>
+                            <input type="text" id="name" name="name" placeholder="Your full name" class="<?php echo isset($errors['name']) ? 'is-invalid' : ''; ?>" value="<?php echo isset($_POST['name']) ? h($_POST['name']) : ''; ?>">
+                            <?php if (isset($errors['name'])): ?><div style="color: var(--error-color); font-size: 0.7rem; margin-top: 5px;"><?php echo $errors['name']; ?></div><?php endif; ?>
+                        </div>
+                        
+                        <div class="form-group" style="margin-bottom: 25px;">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" name="email" placeholder="email@example.com" class="<?php echo isset($errors['email']) ? 'is-invalid' : ''; ?>" value="<?php echo isset($_POST['email']) ? h($_POST['email']) : ''; ?>">
+                            <?php if (isset($errors['email'])): ?><div style="color: var(--error-color); font-size: 0.7rem; margin-top: 5px;"><?php echo $errors['email']; ?></div><?php endif; ?>
+                        </div>
+                        
+                        <div class="form-group" style="margin-bottom: 30px;">
+                            <label for="message">Message</label>
+                            <textarea id="message" name="message" rows="5" placeholder="How can we help you?" class="<?php echo isset($errors['message']) ? 'is-invalid' : ''; ?>"><?php echo isset($_POST['message']) ? h($_POST['message']) : ''; ?></textarea>
+                            <?php if (isset($errors['message'])): ?><div style="color: var(--error-color); font-size: 0.7rem; margin-top: 5px;"><?php echo $errors['message']; ?></div><?php endif; ?>
+                        </div>
+                        
+                        <button type="submit" name="submit" class="btn-primary" style="width: 100%;">SEND MESSAGE</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>

@@ -15,7 +15,8 @@ include 'includes/header.php';
 <section class="section-padding">
     <div class="container">
         <div class="section-title">
-            <h2>Search Results</h2>
+            <span>CURATED SELECTION</span>
+            <h2>SEARCH RESULTS</h2>
             <p>Available rooms for your selected dates.</p>
         </div>
         

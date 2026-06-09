@@ -529,6 +529,49 @@ ul {
     margin-bottom: 60px;
 }
 
+/* Admin Panel Styles */
+.admin-login-card {
+    max-width: 450px;
+    margin: 100px auto;
+    padding: 60px;
+    text-align: center;
+    background: var(--white);
+    border: 1px solid var(--border-color);
+}
+
+.bookings-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 0.9rem;
+}
+
+.bookings-table th {
+    background: var(--bg-light);
+    padding: 15px;
+    text-align: left;
+    font-family: var(--font-header);
+    letter-spacing: 1px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.bookings-table td {
+    padding: 15px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.status-badge {
+    padding: 5px 12px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.status-paid { background: #e8f5e9; color: #2e7d32; }
+.status-unpaid { background: #ffebee; color: #c62828; }
+.status-pending { background: #fff8e1; color: #f9a825; }
+
 /* Specific adjustments */
 .hero-est {
     color: var(--accent-color);
