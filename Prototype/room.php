@@ -28,54 +28,63 @@ include 'includes/header.php';
             <h1><?php echo h($room['name']); ?></h1>
         </div>
         
-        <div class="room-gallery-placeholder" style="background: #eee; height: 400px; margin-bottom: 40px; display: flex; align-items: center; justify-content: center;">
+        <div class="room-gallery-placeholder">
             <p>[ LARGE MEDIA PLACEHOLDER: <?php echo h($room['image']); ?> ]</p>
         </div>
 
-        <div class="grid-3" style="grid-template-columns: 2fr 1fr;">
+        <div class="grid-3" style="grid-template-columns: 2fr 1fr; gap: 60px;">
             <div class="room-info">
-                <h3>Description</h3>
+                <div class="section-title" style="text-align: left; margin-bottom: 30px;">
+                    <span>ROOM DETAILS</span>
+                    <h2>Description</h2>
+                </div>
                 <p><?php echo h($room['description']); ?></p>
                 
-                <h3 style="margin-top: 30px;">Amenities</h3>
+                <div class="section-title" style="text-align: left; margin-bottom: 30px; margin-top: 50px;">
+                    <span>COMFORTS</span>
+                    <h2>Amenities</h2>
+                </div>
                 <ul class="amenities-list">
                     <?php foreach($room['amenities'] as $amenity): ?>
                         <li>&check; <?php echo h($amenity); ?></li>
                     <?php endforeach; ?>
                 </ul>
                 
-                <h3 style="margin-top: 30px;">Price Breakdown</h3>
+                <div class="section-title" style="text-align: left; margin-bottom: 30px; margin-top: 50px;">
+                    <span>INVESTMENT</span>
+                    <h2>Price Breakdown</h2>
+                </div>
                 <p>Base Rate: $<?php echo h($room['price']); ?> / night</p>
                 <p>Service Fee: $25</p>
                 <p>Tax: 12%</p>
             </div>
             
             <div id="booking" class="booking-sidebar">
-                <div class="booking-card" style="border: 1px solid var(--border-color); padding: 30px; position: sticky; top: 100px;">
+                <div class="booking-card">
                     <h3>Reserve this Room</h3>
-                    <p style="font-size: 1.5rem; font-weight: 700; margin-bottom: 20px;">$<?php echo h($room['price']); ?> <span style="font-size: 0.9rem; font-weight: 400;">/ night</span></p>
+                    <p style="font-size: 2rem; font-family: var(--font-header); text-align: center; margin-bottom: 30px;">$<?php echo h($room['price']); ?> <span style="font-size: 0.9rem; font-family: var(--font-body); font-weight: 400; color: var(--secondary-color);">/ night</span></p>
                     
                     <form action="process_booking.php" method="POST">
                         <input type="hidden" name="room_id" value="<?php echo $room['id']; ?>">
                         
-                        <div class="form-group" style="margin-bottom: 15px;">
+                        <div class="form-group" style="margin-bottom: 20px;">
                             <label for="first_name">First Name</label>
-                            <input type="text" id="first_name" name="first_name" required>
+                            <input type="text" id="first_name" name="first_name" required placeholder="Your first name">
                         </div>
-                        <div class="form-group" style="margin-bottom: 15px;">
+                        <div class="form-group" style="margin-bottom: 20px;">
                             <label for="last_name">Last Name</label>
-                            <input type="text" id="last_name" name="last_name" required>
+                            <input type="text" id="last_name" name="last_name" required placeholder="Your last name">
                         </div>
-                        <div class="form-group" style="margin-bottom: 15px;">
+                        <div class="form-group" style="margin-bottom: 20px;">
                             <label for="email">Email Address</label>
-                            <input type="email" id="email" name="email" required>
+                            <input type="email" id="email" name="email" required placeholder="email@example.com">
                         </div>
-                        <div class="form-group" style="margin-bottom: 15px;">
+                        <div class="form-group" style="margin-bottom: 20px;">
                             <label for="phone">Phone Number</label>
-                            <input type="tel" id="phone" name="phone" required>
+                            <input type="tel" id="phone" name="phone" required placeholder="+1 (555) 000-0000">
                         </div>
                         
-                        <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                        <div style="display: flex; gap: 20px; margin-bottom: 20px;">
                             <div class="form-group">
                                 <label for="check_in">Check-In</label>
                                 <input type="date" id="check_in" name="check_in" required>
@@ -86,7 +95,7 @@ include 'includes/header.php';
                             </div>
                         </div>
                         
-                        <div class="form-group" style="margin-bottom: 20px;">
+                        <div class="form-group" style="margin-bottom: 30px;">
                             <label for="guests">Guests</label>
                             <select id="guests" name="guests">
                                 <option value="1">1 Adult</option>
@@ -95,8 +104,8 @@ include 'includes/header.php';
                             </select>
                         </div>
 
-                        <div class="price-estimate" style="background: var(--bg-light); padding: 15px; margin-bottom: 20px; font-size: 0.9rem;">
-                            <p>Estimated Total: <span id="total-price" style="font-weight: 700;">$<?php echo h($room['price']); ?></span></p>
+                        <div class="price-estimate">
+                            <p>Estimated Total: <span id="total-price" style="color: var(--accent-color); font-size: 1.2rem;">$<?php echo h($room['price']); ?></span></p>
                             <small>NO PAYMENT REQUIRED AT THIS STEP</small>
                         </div>
                         
