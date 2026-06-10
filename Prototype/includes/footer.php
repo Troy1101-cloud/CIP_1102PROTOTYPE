@@ -19,15 +19,15 @@
             <div class="footer-social">
                 <h3>FOLLOW US</h3>
                 <div class="social-icons">
-                    <a href="#" style="color: rgba(255,255,255,0.6); margin-right: 20px; font-size: 0.8rem; letter-spacing: 2px;">FACEBOOK</a> 
-                    <a href="#" style="color: rgba(255,255,255,0.6); margin-right: 20px; font-size: 0.8rem; letter-spacing: 2px;">INSTAGRAM</a> 
-                    <a href="#" style="color: rgba(255,255,255,0.6); font-size: 0.8rem; letter-spacing: 2px;">TWITTER</a>
+                    <a href="#">FACEBOOK</a> 
+                    <a href="#">INSTAGRAM</a> 
+                    <a href="#">TWITTER</a>
                 </div>
             </div>
         </div>
         <div class="footer-bottom">
             <div class="container">
-                <p>&copy; <?php echo date('Y'); ?> Ralmitrokij Hotel. All rights reserved. | <a href="admin/login.php" style="color: inherit; border-bottom: 1px solid rgba(255,255,255,0.2);">Admin Portal</a></p>
+                <p>&copy; <?php echo date('Y'); ?> Ralmitrokij Hotel. All rights reserved. | <a href="admin/login.php" class="admin-link">Admin Portal</a></p>
             </div>
         </div>
     </footer>
