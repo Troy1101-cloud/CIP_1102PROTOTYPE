@@ -5,8 +5,15 @@ require_once 'includes/functions.php';
 if (isset($_POST['submit_payment'])) {
     $booking_id = (int)$_POST['booking_id'];
     $payment_method = $_POST['payment_method'];
+    $is_simulation = isset($_POST['simulation_complete']) ? true : false;
     
     // Simulate processing for credit card and e-wallet
+    if (($payment_method === 'credit_card' || $payment_method === 'ewallet') && !$is_simulation) {
+        // Redirect to simulation page first to mimic the wireframe process
+        header("Location: simulate_redirect.php?booking_id=" . $booking_id . "&method=" . $payment_method);
+        exit;
+    }
+
     if ($payment_method === 'credit_card' || $payment_method === 'ewallet') {
         $result = process_payment_mock($_POST);
         
