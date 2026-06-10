@@ -49,7 +49,7 @@ $rooms = get_all_data('rooms');
         <div class="grid-3">
             <article class="room-card">
                 <div class="room-image">
-                    <img src="pictures/skylounge.jpg" alt="Standard Room">
+                    <img src="pictures/standard.jpg" alt="Standard Room">
                     <span class="category-label">COMFORT</span>
                 </div>
                 <div class="room-content">
