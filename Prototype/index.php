@@ -8,7 +8,7 @@ $rooms = get_all_data('rooms');
 
 <section id="home" class="hero">
     <div class="hero-content">
-        <p class="hero-est">&mdash; EST. 2024 &mdash;</p>
+        <p class="hero-est">&mdash; EST. 2026 &mdash;</p>
         <h1>Welcome to Ralmitrokij Hotel</h1>
         <p>Experience unparalleled luxury and comfort in the heart of the city.</p>
         
