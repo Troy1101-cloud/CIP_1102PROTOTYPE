@@ -47,8 +47,8 @@ include 'includes/header.php';
                 <p><strong>Phone:</strong> +1 (234) 567-890</p>
                 <p><strong>Email:</strong> info@ralmitrokij.com</p>
                 
-                <div class="room-gallery-placeholder" style="height: 250px; margin-top: 40px;">
-                    [ MAP PLACEHOLDER ]
+                <div class="room-gallery-placeholder" style="height: 250px; margin-top: 40px; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                    <img src="pictures/mapping.JPG" alt="Resort Location Details" style="width: 100%; height: 100%; object-fit: cover; display: block;">
                 </div>
             </div>
             
