@@ -1,3 +1,17 @@
+<?php
+// Define base URL to handle both root and Prototype paths
+$protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+$host = $_SERVER['HTTP_HOST'];
+$script_name = $_SERVER['SCRIPT_NAME'];
+$script_dir = dirname($script_name);
+// Check if we are inside Prototype folder or not
+if (basename($script_dir) === 'Prototype') {
+    $base_url = $protocol . '://' . $host . $script_dir . '/';
+} else {
+    $base_url = $protocol . '://' . $host . $script_dir . '/Prototype/';
+}
+$root_index = dirname($base_url) . '/index.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,7 +21,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/styles.css?v=<?php echo time(); ?>">
+    <link rel="stylesheet" href="<?php echo $base_url; ?>assets/css/styles.css?v=<?php echo time(); ?>">
     <style>
         .logo img {
             height: 40px;
@@ -26,7 +40,6 @@
 
         .portal-dropdown {
             position: relative;
-            margin-left: px;
             /* margin-left: auto; <-- Removed to allow it to sit on the left */
         }
 
@@ -113,37 +126,34 @@
                     <span></span>
                 </button>
                 <div class="dropdown-menu">
-                    <a href="admin/login.php"><span class="portal-icon"></span>Admin</a>
-                    <a href="staff/login.php"><span class="portal-icon"></span>Staff</a>
-                    <a href="agency/login.php"><span class="portal-icon"></span>Travel Agencies</a>
+                    <a href="<?php echo $base_url; ?>admin/login.php"><span class="portal-icon"></span>Admin</a>
+                    <a href="<?php echo $base_url; ?>staff/login.php"><span class="portal-icon"></span>Staff</a>
+                    <a href="<?php echo $base_url; ?>agency/login.php"><span class="portal-icon"></span>Travel Agencies</a>
                 </div>
             </div>
 
             <div class="logo">
-                <a href="index.php" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
-                    <img src="pictures/logo.jpg" alt="Ralmitrokij Logo">
+                <a href="<?php echo $root_index; ?>" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+                    <img src="<?php echo $base_url; ?>pictures/logo.jpg" alt="Ralmitrokij Logo">
                     <span class="logo-box">RALMITROKIJ</span>
                 </a>
             </div>
 
             <nav class="main-nav">
                 <ul>
-                    <li><a href="index.php#home">HOME</a></li>
-                    <li><a href="rooms.php">ROOMS</a></li>
-                    <li><a href="index.php#dining">DINING</a></li>
-                    <li><a href="index.php#amenities">AMENITIES</a></li>
-                    <li><a href="contact.php">CONTACT</a></li>
-                    <li><a href="totalpaymentpage.php">PAYMENTS</a></li>
+                    <li><a href="<?php echo $root_index; ?>#home">HOME</a></li>
+                    <li><a href="<?php echo $base_url; ?>rooms.php">ROOMS</a></li>
+                    <li><a href="<?php echo $root_index; ?>#dining">DINING</a></li>
+                    <li><a href="<?php echo $root_index; ?>#amenities">AMENITIES</a></li>
+                    <li><a href="<?php echo $base_url; ?>contact.php">CONTACT</a></li>
+                    <li><a href="<?php echo $base_url; ?>totalpaymentpage.php">PAYMENTS</a></li>
                 </ul>
             </nav>
 
             <div class="header-cta" style="display: flex; align-items: center; gap: 12px;">
-                <a href="rooms.php" class="btn-primary">BOOK NOW</a>
+                <a href="<?php echo $base_url; ?>rooms.php" class="btn-primary">BOOK NOW</a>
             </div>
 
         </div>
     </header>
     <main>
-    </main>
-</body>
-</html>

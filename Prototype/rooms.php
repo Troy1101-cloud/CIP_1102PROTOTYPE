@@ -73,8 +73,9 @@ function get_room_picture($room_name) {
                             </p>
                         </div>
                         
-                        <div style="margin-top: auto;">
-                            <a href="room.php?id=<?php echo $room['id']; ?>" class="btn-primary" style="display: block; text-align: center; text-decoration: none; padding: 12px; font-size: 0.85rem; letter-spacing: 2px;">VIEW DETAILS</a>
+                        <div style="margin-top: auto; display: flex; gap: 10px;">
+                            <a href="room.php?id=<?php echo $room['id']; ?>" class="btn-secondary" style="flex: 1; text-align: center; text-decoration: none; padding: 12px; font-size: 0.85rem; letter-spacing: 2px;">DETAILS</a>
+                            <a href="room.php?id=<?php echo $room['id']; ?>#booking" class="btn-primary" style="flex: 1; text-align: center; text-decoration: none; padding: 12px; font-size: 0.85rem; letter-spacing: 2px;">BOOK NOW</a>
                         </div>
                     </div>
 

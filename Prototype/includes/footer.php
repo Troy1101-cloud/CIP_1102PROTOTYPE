@@ -1,3 +1,17 @@
+<?php
+// Define base URL to handle both root and Prototype paths
+$protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+$host = $_SERVER['HTTP_HOST'];
+$script_name = $_SERVER['SCRIPT_NAME'];
+$script_dir = dirname($script_name);
+// Check if we are inside Prototype folder or not
+if (basename($script_dir) === 'Prototype') {
+    $base_url = $protocol . '://' . $host . $script_dir . '/';
+} else {
+    $base_url = $protocol . '://' . $host . $script_dir . '/Prototype/';
+}
+$root_index = dirname($base_url) . '/index.php';
+?>
     </main>
     <footer class="main-footer">
         <div class="container footer-grid">
@@ -10,10 +24,10 @@
             <div class="footer-links">
                 <h3>QUICK LINKS</h3>
                 <ul>
-                    <li><a href="index.php">Home</a></li>
-                    <li><a href="rooms.php">Rooms</a></li>
-                    <li><a href="contact.php">Contact Us</a></li>
-                    <li><a href="admin/login.php">Admin Login</a></li>
+                    <li><a href="<?php echo $root_index; ?>">Home</a></li>
+                    <li><a href="<?php echo $base_url; ?>rooms.php">Rooms</a></li>
+                    <li><a href="<?php echo $base_url; ?>contact.php">Contact Us</a></li>
+                    <li><a href="<?php echo $base_url; ?>admin/login.php">Admin Login</a></li>
                 </ul>
             </div>
             <div class="footer-social">
@@ -27,7 +41,7 @@
         </div>
         <div class="footer-bottom">
             <div class="container">
-                <p>&copy; <?php echo date('Y'); ?> Ralmitrokij Hotel. All rights reserved. | <a href="admin/login.php" class="admin-link">Admin Portal</a></p>
+                <p>&copy; <?php echo date('Y'); ?> Ralmitrokij Hotel. All rights reserved. | <a href="<?php echo $base_url; ?>admin/login.php" class="admin-link">Admin Portal</a></p>
             </div>
         </div>
     </footer>
@@ -36,7 +50,7 @@
         <div class="modal-content">
             <span class="close-modal">&times;</span>
             <h2 class="modal-title">Reserve a Room</h2>
-            <form action="process_booking.php" method="POST">
+            <form action="<?php echo $base_url; ?>process_booking.php" method="POST">
                 <input type="hidden" name="room_id" value="">
                 
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 25px;">
@@ -85,6 +99,6 @@
         </div>
     </div>
 
-    <script src="assets/js/main.js"></script>
+    <script src="<?php echo $base_url; ?>assets/js/main.js"></script>
 </body>
 </html>
