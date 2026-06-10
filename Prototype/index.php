@@ -49,7 +49,7 @@ $rooms = get_all_data('rooms');
         <div class="grid-3">
             <article class="room-card">
                 <div class="room-image">
-                    <img src="pictures/standard.jpg" alt="Standard Room">
+                    <img src="./pictures/standard.jpg" alt="Standard Room">
                     <span class="category-label">COMFORT</span>
                 </div>
                 <div class="room-content">
@@ -60,7 +60,7 @@ $rooms = get_all_data('rooms');
             </article>
             <article class="room-card">
                 <div class="room-image">
-                    <img src="pictures/deluxe.jpg" alt="Deluxe Room">
+                    <img src="./pictures/deluxe.jpg" alt="Deluxe Room">
                     <span class="category-label">LUXURY</span>
                 </div>
                 <div class="room-content">
@@ -71,7 +71,7 @@ $rooms = get_all_data('rooms');
             </article>
             <article class="room-card">
                 <div class="room-image">
-                    <img src="pictures/grandsuite.jpg" alt="Grand Suite">
+                    <img src="./pictures/grandsuite.jpg" alt="Grand Suite">
                     <span class="category-label">PREMIUM</span>
                 </div>
                 <div class="room-content">
