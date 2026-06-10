@@ -2,16 +2,18 @@
 require_once 'includes/db.php';
 require_once 'includes/functions.php';
 
-// Helper function utilizing your specific image paths based on room name
-function get_room_picture($room_name) {
-    $name = strtolower($room_name);
-    if (strpos($name, 'grand') !== false || strpos($name, 'suite') !== false) {
-        return './pictures/grandsuite.jpg';
-    } elseif (strpos($name, 'deluxe') !== false) {
-        return './pictures/deluxe.jpg';
-    } 
-    // Default fallback to Standard Room
-    return './pictures/standard.jpg';
+// Wrapped in function_exists to prevent PHP fatal errors across different pages
+if (!function_exists('get_room_picture')) {
+    function get_room_picture($room_name) {
+        $name = strtolower($room_name);
+        if (strpos($name, 'grand') !== false || strpos($name, 'suite') !== false) {
+            return 'pictures/grandsuite.jpg';
+        } elseif (strpos($name, 'deluxe') !== false) {
+            return 'pictures/deluxe.jpg';
+        } 
+        // Default fallback to Standard Room
+        return 'pictures/standard.jpg';
+    }
 }
 
 $search_results = [];
@@ -55,8 +57,8 @@ include 'includes/header.php';
             <?php if (!empty($search_results)): ?>
                 <?php foreach($search_results as $room): ?>
                     <?php 
-                        // Determine image path: Checks if database value exists, otherwise applies your specific local paths
-                        $image_src = (!empty($room['image']) && file_exists($room['image'])) ? h($room['image']) : get_room_picture($room['name']);
+                        // FORCED LOCAL PICTURES: Bypasses database entirely to ensure cross-host consistency
+                        $image_src = get_room_picture($room['name']);
                     ?>
                     
                     <div class="booking-card" style="position: relative; padding: 0; overflow: hidden; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); display: flex; flex-direction: column; justify-content: space-between; background: #fff;">
