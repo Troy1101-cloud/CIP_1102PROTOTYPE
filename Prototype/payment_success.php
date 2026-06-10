@@ -26,7 +26,8 @@ include 'includes/header.php';
 
             <p style="color: var(--secondary-color); font-size: 0.9rem;">A confirmation email has been sent to your inbox with all the details and your digital check-in pass.</p>
             
-            <div style="margin-top: 50px; display: flex; gap: 20px; justify-content: center;">
+            <div style="margin-top: 50px; display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                <a href="totalpaymentpage.php?booking_id=<?php echo $booking_id; ?>" class="btn-secondary">VIEW PAYMENT SUMMARY</a>
                 <a href="index.php" class="btn-primary">BACK TO HOME</a>
                 <a href="payment_success.php?id=<?php echo $booking_id; ?>&action=print" class="btn-secondary" onclick="window.print(); return false;">PRINT RECEIPT</a>
             </div>

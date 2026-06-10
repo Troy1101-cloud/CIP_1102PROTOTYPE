@@ -24,6 +24,7 @@
                     <li><a href="index.php#dining">DINING</a></li>
                     <li><a href="index.php#amenities">AMENITIES</a></li>
                     <li><a href="contact.php">CONTACT</a></li>
+                    <li><a href="totalpaymentpage.php">PAYMENTS</a></li>
                     <li><a href="admin/login.php" class="admin-link">ADMIN</a></li>
                 </ul>
             </nav>

@@ -104,6 +104,64 @@ include 'includes/header.php';
                             </select>
                         </div>
 
+                        <!-- Amenities Selection -->
+                        <div class="form-group" style="margin-bottom: 25px; padding: 20px; background: var(--bg-light); border: 1px solid var(--border-color);">
+                            <label style="font-weight: 600; display: block; margin-bottom: 15px;">Add Amenities</label>
+                            
+                            <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                                <input type="checkbox" id="amenity_1" name="amenities[]" value="1" style="margin-right: 10px; cursor: pointer;">
+                                <label for="amenity_1" style="cursor: pointer; margin: 0;">
+                                    <strong>Infinity Pool</strong>
+                                    <span style="color: var(--accent-color); font-weight: 600; float: right;">FREE</span>
+                                </label>
+                            </div>
+                            
+                            <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                                <input type="checkbox" id="amenity_2" name="amenities[]" value="2" style="margin-right: 10px; cursor: pointer;">
+                                <label for="amenity_2" style="cursor: pointer; margin: 0;">
+                                    <strong>Fitness Center</strong>
+                                    <span style="color: var(--accent-color); font-weight: 600; float: right;">FREE</span>
+                                </label>
+                            </div>
+                            
+                            <div style="display: flex; align-items: center;">
+                                <input type="checkbox" id="amenity_3" name="amenities[]" value="3" style="margin-right: 10px; cursor: pointer;">
+                                <label for="amenity_3" style="cursor: pointer; margin: 0;">
+                                    <strong>Serenity Spa</strong>
+                                    <span style="color: var(--accent-color); font-weight: 600; float: right;">+$50</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Dining Selection -->
+                        <div class="form-group" style="margin-bottom: 30px; padding: 20px; background: var(--bg-light); border: 1px solid var(--border-color);">
+                            <label style="font-weight: 600; display: block; margin-bottom: 15px;">Add Dining Options</label>
+                            
+                            <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                                <input type="checkbox" id="dining_1" name="dining[]" value="1" style="margin-right: 10px; cursor: pointer;">
+                                <label for="dining_1" style="cursor: pointer; margin: 0;">
+                                    <strong>The Sky Lounge</strong>
+                                    <span style="color: var(--accent-color); font-weight: 600; float: right;">+$85</span>
+                                </label>
+                            </div>
+                            
+                            <div style="display: flex; align-items: center; margin-bottom: 12px;">
+                                <input type="checkbox" id="dining_2" name="dining[]" value="2" style="margin-right: 10px; cursor: pointer;">
+                                <label for="dining_2" style="cursor: pointer; margin: 0;">
+                                    <strong>Artisan Café</strong>
+                                    <span style="color: var(--accent-color); font-weight: 600; float: right;">+$35</span>
+                                </label>
+                            </div>
+                            
+                            <div style="display: flex; align-items: center;">
+                                <input type="checkbox" id="dining_3" name="dining[]" value="3" style="margin-right: 10px; cursor: pointer;">
+                                <label for="dining_3" style="cursor: pointer; margin: 0;">
+                                    <strong>The Copper Bar</strong>
+                                    <span style="color: var(--accent-color); font-weight: 600; float: right;">+$45</span>
+                                </label>
+                            </div>
+                        </div>
+
                         <div class="price-estimate">
                             <p>Estimated Total: <span id="total-price" style="color: var(--accent-color); font-size: 1.2rem;">$<?php echo h($room['price']); ?></span></p>
                             <small>NO PAYMENT REQUIRED AT THIS STEP</small>

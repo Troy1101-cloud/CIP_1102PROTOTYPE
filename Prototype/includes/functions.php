@@ -101,4 +101,101 @@ function process_payment_mock($paymentData) {
 function h($string) {
     return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
 }
+
+/**
+ * Get amenity pricing
+ */
+function get_amenities_pricing() {
+    return [
+        1 => ['name' => 'Infinity Pool', 'price' => 0, 'category' => 'FREE'],
+        2 => ['name' => 'Fitness Center', 'price' => 0, 'category' => 'FREE'],
+        3 => ['name' => 'Serenity Spa', 'price' => 50, 'category' => 'WELLNESS'],
+    ];
+}
+
+/**
+ * Get dining options pricing
+ */
+function get_dining_pricing() {
+    return [
+        1 => ['name' => 'The Sky Lounge', 'price' => 85, 'category' => 'FINE DINING'],
+        2 => ['name' => 'Artisan Café', 'price' => 35, 'category' => 'CASUAL'],
+        3 => ['name' => 'The Copper Bar', 'price' => 45, 'category' => 'BAR & GRILL'],
+    ];
+}
+
+/**
+ * Calculate total amenities cost
+ */
+function calculate_amenities_total($amenities_selected) {
+    $amenities = get_amenities_pricing();
+    $total = 0;
+    if (is_array($amenities_selected)) {
+        foreach($amenities_selected as $am_id) {
+            if (isset($amenities[$am_id])) {
+                $total += $amenities[$am_id]['price'];
+            }
+        }
+    }
+    return $total;
+}
+
+/**
+ * Calculate total dining cost
+ */
+function calculate_dining_total($dining_selected) {
+    $dining = get_dining_pricing();
+    $total = 0;
+    if (is_array($dining_selected)) {
+        foreach($dining_selected as $din_id) {
+            if (isset($dining[$din_id])) {
+                $total += $dining[$din_id]['price'];
+            }
+        }
+    }
+    return $total;
+}
+
+/**
+ * Calculate booking grand total
+ */
+function calculate_booking_total($booking, $room) {
+    // Calculate number of nights
+    $check_in = new DateTime($booking['check_in']);
+    $check_out = new DateTime($booking['check_out']);
+    $interval = $check_in->diff($check_out);
+    $nights = $interval->days;
+    
+    // Calculate room charges
+    $room_rate = (float)$room['price'];
+    $room_total = $room_rate * $nights;
+    $service_fee = 25;
+    $subtotal = $room_total + $service_fee;
+    
+    // Calculate amenities and dining charges
+    $amenities_selected = isset($booking['amenities']) ? $booking['amenities'] : [];
+    $dining_selected = isset($booking['dining']) ? $booking['dining'] : [];
+    
+    $amenities_total = calculate_amenities_total($amenities_selected);
+    $dining_total = calculate_dining_total($dining_selected);
+    
+    // Calculate tax
+    $taxable_amount = $subtotal + $amenities_total + $dining_total;
+    $tax = $taxable_amount * 0.12;
+    
+    // Grand total
+    $grand_total = $taxable_amount + $tax;
+    
+    return [
+        'nights' => $nights,
+        'room_total' => $room_total,
+        'service_fee' => $service_fee,
+        'subtotal' => $subtotal,
+        'amenities_total' => $amenities_total,
+        'dining_total' => $dining_total,
+        'taxable_amount' => $taxable_amount,
+        'tax' => $tax,
+        'grand_total' => $grand_total
+    ];
+}
 ?>

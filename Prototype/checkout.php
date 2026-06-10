@@ -27,6 +27,37 @@ foreach($rooms as $r) {
     }
 }
 
+// Define amenities and dining with prices
+$amenities = get_amenities_pricing();
+$dining_options = get_dining_pricing();
+
+// Calculate number of nights
+$check_in = new DateTime($booking['check_in']);
+$check_out = new DateTime($booking['check_out']);
+$interval = $check_in->diff($check_out);
+$nights = $interval->days;
+
+// Calculate room charges
+$room_rate = (float)$room['price'];
+$room_total = $room_rate * $nights;
+$service_fee = 25;
+$subtotal = $room_total + $service_fee;
+
+// Calculate amenities charges
+$amenities_selected = isset($booking['amenities']) ? $booking['amenities'] : [];
+$amenities_total = calculate_amenities_total($amenities_selected);
+
+// Calculate dining charges
+$dining_selected = isset($booking['dining']) ? $booking['dining'] : [];
+$dining_total = calculate_dining_total($dining_selected);
+
+// Calculate tax (12% on subtotal + amenities + dining)
+$taxable_amount = $subtotal + $amenities_total + $dining_total;
+$tax = $taxable_amount * 0.12;
+
+// Grand total
+$grand_total = $taxable_amount + $tax;
+
 include 'includes/header.php';
 ?>
 
@@ -119,21 +150,36 @@ include 'includes/header.php';
                         <h3>Total Amount</h3>
                     </div>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
-                        <span style="font-size: 0.9rem; color: var(--secondary-color);">Room Rate</span>
-                        <span style="font-weight: 600;">$<?php echo h($room['price']); ?></span>
+                        <span style="font-size: 0.9rem; color: var(--secondary-color);">Room (<?php echo $nights; ?> night<?php echo $nights !== 1 ? 's' : ''; ?>)</span>
+                        <span style="font-weight: 600;">$<?php echo number_format($room_total, 2); ?></span>
                     </div>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
                         <span style="font-size: 0.9rem; color: var(--secondary-color);">Service Fee</span>
-                        <span style="font-weight: 600;">$25.00</span>
+                        <span style="font-weight: 600;">$<?php echo number_format($service_fee, 2); ?></span>
                     </div>
-                    <div style="display: flex; justify-content: space-between; margin-bottom: 25px;">
+                    <?php if ($amenities_total > 0): ?>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                        <span style="font-size: 0.9rem; color: var(--secondary-color);">Amenities</span>
+                        <span style="font-weight: 600;">$<?php echo number_format($amenities_total, 2); ?></span>
+                    </div>
+                    <?php endif; ?>
+                    <?php if ($dining_total > 0): ?>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                        <span style="font-size: 0.9rem; color: var(--secondary-color);">Dining</span>
+                        <span style="font-weight: 600;">$<?php echo number_format($dining_total, 2); ?></span>
+                    </div>
+                    <?php endif; ?>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid var(--border-color);">
                         <span style="font-size: 0.9rem; color: var(--secondary-color);">Tax (12%)</span>
-                        <span style="font-weight: 600;">$<?php echo h($room['price'] * 0.12); ?></span>
+                        <span style="font-weight: 600;">$<?php echo number_format($tax, 2); ?></span>
                     </div>
                     <div style="border-top: 1px solid var(--border-color); padding-top: 25px; display: flex; justify-content: space-between; align-items: center;">
                         <span style="font-family: var(--font-header); font-size: 1.2rem;">Total</span>
-                        <span style="font-family: var(--font-header); font-size: 1.8rem; color: var(--accent-color);">$<?php echo h($room['price'] + 25 + ($room['price'] * 0.12)); ?></span>
+                        <span style="font-family: var(--font-header); font-size: 1.8rem; color: var(--accent-color);">$<?php echo number_format($grand_total, 2); ?></span>
                     </div>
+                    <p style="font-size: 0.8rem; color: var(--secondary-color); margin-top: 20px; text-align: center;">
+                        <a href="totalpaymentpage.php?booking_id=<?php echo $booking_id; ?>" style="color: var(--primary-color); text-decoration: underline;">View Detailed Breakdown →</a>
+                    </p>
                 </div>
             </div>
         </div>
