@@ -26,7 +26,8 @@
 
         .portal-dropdown {
             position: relative;
-            margin-left: auto;
+            margin-left: px;
+            /* margin-left: auto; <-- Removed to allow it to sit on the left */
         }
 
         .hamburger-btn {
@@ -63,8 +64,8 @@
         .portal-dropdown .dropdown-menu {
             display: none;
             position: absolute;
-            right: 0;
-            top: calc(100% + 8px);
+            left: 0; 
+            top: 100%; /* FIX: Changed from calc(100% + 8px) to remove the hover dead zone */
             background: #fff;
             border: 1px solid #e5e0d5;
             border-radius: 6px;
@@ -95,33 +96,16 @@
             color: #fff;
         }
 
+        /* Note: If your text is vanishing, adjust this margin down from 100px */
         .portal-dropdown .dropdown-menu a .portal-icon {
-            margin-right: 100px;
+            margin-right: 10px; 
         }
     </style>
 </head>
 <body>
     <header class="main-header sticky">
         <div class="container header-container">
-            <div class="logo">
-                <a href="index.php" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
-                    <img src="pictures/logo.jpg" alt="Ralmitrokij Logo">
-                    <span class="logo-box">RALMITROKIJ</span>
-                </a>
-            </div>
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="index.php#home">HOME</a></li>
-                    <li><a href="rooms.php">ROOMS</a></li>
-                    <li><a href="index.php#dining">DINING</a></li>
-                    <li><a href="index.php#amenities">AMENITIES</a></li>
-                    <li><a href="contact.php">CONTACT</a></li>
-                    <li><a href="totalpaymentpage.php">PAYMENTS</a></li>
-                </ul>
-            </nav>
-            <div class="header-cta" style="display: flex; align-items: center; gap: 12px;">
-                <a href="rooms.php" class="btn-primary">BOOK NOW</a>
-            </div>
+            
             <div class="portal-dropdown">
                 <button class="hamburger-btn">
                     <span></span>
@@ -134,6 +118,32 @@
                     <a href="agency/login.php"><span class="portal-icon"></span>Travel Agencies</a>
                 </div>
             </div>
+
+            <div class="logo">
+                <a href="index.php" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+                    <img src="pictures/logo.jpg" alt="Ralmitrokij Logo">
+                    <span class="logo-box">RALMITROKIJ</span>
+                </a>
+            </div>
+
+            <nav class="main-nav">
+                <ul>
+                    <li><a href="index.php#home">HOME</a></li>
+                    <li><a href="rooms.php">ROOMS</a></li>
+                    <li><a href="index.php#dining">DINING</a></li>
+                    <li><a href="index.php#amenities">AMENITIES</a></li>
+                    <li><a href="contact.php">CONTACT</a></li>
+                    <li><a href="totalpaymentpage.php">PAYMENTS</a></li>
+                </ul>
+            </nav>
+
+            <div class="header-cta" style="display: flex; align-items: center; gap: 12px;">
+                <a href="rooms.php" class="btn-primary">BOOK NOW</a>
+            </div>
+
         </div>
     </header>
     <main>
+    </main>
+</body>
+</html>
