@@ -100,7 +100,7 @@ include 'includes/header.php';
                             <select id="guests" name="guests">
                                 <option value="1">1 Adult</option>
                                 <option value="2">2 Adults</option>
-                                <option value="3">3 Adults</option>
+                                <option value="3">3 or more Adults</option>
                             </select>
                         </div>
 

@@ -32,7 +32,7 @@ $rooms = get_all_data('rooms');
                     <option value="1">1 Adult</option>
                     <option value="2">2 Adults</option>
                     <option value="3">3 Adults</option>
-                    <option value="4">4 Adults</option>
+                    <option value="4">4 or more Adults</option>
                 </select>
             </div>
             <button type="submit" class="btn-primary">SEARCH</button>
