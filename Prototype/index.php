@@ -55,7 +55,7 @@ $rooms = get_all_data('rooms');
                 <div class="room-content">
                     <h3>Standard Room</h3>
                     <p>A cozy and well-appointed room perfect for short stays and business travelers.</p>
-                    <a href="room.php?id=1" class="btn-link">VIEW DETAILS &rarr;</a>
+                    <a href="room.php?id=3" class="btn-link">VIEW DETAILS &rarr;</a>
                 </div>
             </article>
             <article class="room-card">
@@ -66,7 +66,7 @@ $rooms = get_all_data('rooms');
                 <div class="room-content">
                     <h3>Deluxe Room</h3>
                     <p>Spacious accommodations with premium amenities for a truly relaxing experience.</p>
-                    <a href="room.php?id=2" class="btn-link">VIEW DETAILS &rarr;</a>
+                    <a href="room.php?id=1" class="btn-link">VIEW DETAILS &rarr;</a>
                 </div>
             </article>
             <article class="room-card">
@@ -77,7 +77,7 @@ $rooms = get_all_data('rooms');
                 <div class="room-content">
                     <h3>Grand Suite</h3>
                     <p>Our most opulent suite offering separate living areas and breathtaking city views.</p>
-                    <a href="room.php?id=3" class="btn-link">VIEW DETAILS &rarr;</a>
+                    <a href="room.php?id=2" class="btn-link">VIEW DETAILS &rarr;</a>
                 </div>
             </article>
         </div>
