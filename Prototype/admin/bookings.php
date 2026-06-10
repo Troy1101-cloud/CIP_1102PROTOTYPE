@@ -52,6 +52,7 @@ if ($filter_status !== 'all') {
                 <span style="opacity: 0.6; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 3px; font-weight: 400;">Internal Management</span>
             </div>
             <div style="display: flex; gap: 30px; align-items: center; font-size: 0.75rem; font-weight: 600; letter-spacing: 1px;">
+                <a href="../index.php" style="color: var(--white); opacity: 0.8; text-decoration: none;">BACK TO SITE</a>
                 <span style="color: var(--accent-color);">ADMINISTRATOR</span>
                 <a href="logout.php" style="color: var(--white); opacity: 0.8; border: 1px solid rgba(255,255,255,0.2); padding: 8px 15px; transition: all 0.3s;">LOGOUT</a>
             </div>

@@ -146,7 +146,7 @@ $root_index = dirname($base_url) . '/index.php';
                     <li><a href="<?php echo $root_index; ?>#dining">DINING</a></li>
                     <li><a href="<?php echo $root_index; ?>#amenities">AMENITIES</a></li>
                     <li><a href="<?php echo $base_url; ?>contact.php">CONTACT</a></li>
-                    <li><a href="<?php echo $base_url; ?>totalpaymentpage.php">PAYMENTS</a></li>
+                    <li><a href="<?php echo $base_url; ?>admin/login.php">ADMIN</a></li>
                 </ul>
             </nav>
 
