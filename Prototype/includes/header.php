@@ -13,7 +13,8 @@
     <header class="main-header sticky">
         <div class="container header-container">
             <div class="logo">
-                <a href="index.php">
+                <a href="index.php" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
+                    <img src="pictures/logo.jpg" alt="Ralmitrokij Logo" style="height: 40px; width: auto; object-fit: contain;">
                     <span class="logo-box">RALMITROKIJ</span>
                 </a>
             </div>
