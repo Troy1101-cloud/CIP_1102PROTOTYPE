@@ -195,6 +195,11 @@ include 'includes/header.php';
                             </div>
                         </div>
 
+                        <div class="form-group" style="margin-bottom: 20px;">
+                            <label for="special_requests" style="display: block; margin-bottom: 8px; font-weight: 600;">Special Requests (Optional)</label>
+                            <textarea id="special_requests" name="special_requests" rows="3" placeholder="Any special requests (e.g., extra bed, smoking/non-smoking, early check-in)..." style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px;"></textarea>
+                        </div>
+
                         <div class="price-estimate" style="text-align: center; margin-bottom: 20px; padding-top: 15px; border-top: 1px solid #eaeaea;">
                             <p style="font-weight: 600; margin-bottom: 5px;">Estimated Total: <span id="total-price" style="color: var(--accent-color); font-size: 1.4rem;"><?php echo format_php($room['price']); ?></span></p>
                             <small style="color: var(--secondary-color); font-size: 0.8rem;">NO PAYMENT REQUIRED AT THIS STEP</small>
