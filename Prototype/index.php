@@ -27,12 +27,23 @@ $rooms = get_all_data('rooms');
                 <input type="date" id="check-out" name="check_out" required>
             </div>
             <div class="form-group">
-                <label for="guests">Guests</label>
-                <select id="guests" name="guests">
+                <label for="guests_adults">Adults</label>
+                <select id="guests_adults" name="guests_adults">
                     <option value="1">1 Adult</option>
-                    <option value="2">2 Adults</option>
+                    <option value="2" selected>2 Adults</option>
                     <option value="3">3 Adults</option>
-                    <option value="4">4 or more Adults</option>
+                    <option value="4">4 Adults</option>
+                    <option value="5">5 or more Adults</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="guests_children">Children</label>
+                <select id="guests_children" name="guests_children">
+                    <option value="0" selected>0 Children</option>
+                    <option value="1">1 Child</option>
+                    <option value="2">2 Children</option>
+                    <option value="3">3 Children</option>
+                    <option value="4">4 or more Children</option>
                 </select>
             </div>
             <button type="submit" class="btn-primary">SEARCH</button>
@@ -143,6 +154,7 @@ $rooms = get_all_data('rooms');
                 <div class="room-content">
                     <h3>Infinity Pool</h3>
                     <p>Relax and rejuvenate in our temperature-controlled rooftop infinity pool.</p>
+                    <p style="font-size: 0.9rem; color: var(--accent-color); margin-top: 10px;"><strong>Hours:</strong> 6:00 AM - 10:00 PM</p>
                     <a href="amenity.php?id=1" class="btn-link">VIEW DETAILS &rarr;</a>
                 </div>
             </article>
@@ -154,6 +166,7 @@ $rooms = get_all_data('rooms');
                 <div class="room-content">
                     <h3>Fitness Center</h3>
                     <p>State-of-the-art equipment to help you maintain your wellness routine.</p>
+                    <p style="font-size: 0.9rem; color: var(--accent-color); margin-top: 10px;"><strong>Hours:</strong> 5:00 AM - 11:00 PM</p>
                     <a href="amenity.php?id=2" class="btn-link">VIEW DETAILS &rarr;</a>
                 </div>
             </article>
@@ -165,6 +178,7 @@ $rooms = get_all_data('rooms');
                 <div class="room-content">
                     <h3>Serenity Spa</h3>
                     <p>Holistic treatments designed to balance the mind, body, and spirit.</p>
+                    <p style="font-size: 0.9rem; color: var(--accent-color); margin-top: 10px;"><strong>Hours:</strong> 9:00 AM - 9:00 PM</p>
                     <a href="amenity.php?id=3" class="btn-link">VIEW DETAILS &rarr;</a>
                 </div>
             </article>

@@ -71,21 +71,13 @@ include 'includes/header.php';
                     <?php endif; ?>
                 </ul>
                 
-                <div class="section-title" style="text-align: left; margin-bottom: 30px; margin-top: 50px;">
-                    <span>INVESTMENT</span>
-                    <h2>Price Breakdown</h2>
-                </div>
-                <div style="background: var(--bg-light); padding: 20px; border-radius: 8px;">
-                    <p style="margin-bottom: 10px;"><strong>Base Rate:</strong> $<?php echo h($room['price']); ?> / night</p>
-                    <p style="margin-bottom: 10px;"><strong>Service Fee:</strong> $25</p>
-                    <p style="margin-bottom: 0;"><strong>Tax:</strong> 12%</p>
-                </div>
+
             </div>
             
             <div id="booking" class="booking-sidebar">
                 <div class="booking-card" style="position: sticky; top: 100px; padding: 30px; background: #fff; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.08);">
                     <h3 style="text-align: center; margin-bottom: 15px; font-family: var(--font-header);">Reserve this Room</h3>
-                    <p style="font-size: 2rem; font-family: var(--font-header); text-align: center; margin-bottom: 30px; color: var(--primary-color);">$<?php echo h($room['price']); ?> <span style="font-size: 0.9rem; font-family: var(--font-body); font-weight: 400; color: var(--secondary-color);">/ night</span></p>
+                    <p style="font-size: 2rem; font-family: var(--font-header); text-align: center; margin-bottom: 30px; color: var(--primary-color);"><?php echo format_php($room['price']); ?> <span style="font-size: 0.9rem; font-family: var(--font-body); font-weight: 400; color: var(--secondary-color);">/ night</span></p>
                     
                     <form action="process_booking.php" method="POST">
                         <input type="hidden" name="room_id" value="<?php echo $room['id']; ?>">
@@ -104,7 +96,7 @@ include 'includes/header.php';
                         </div>
                         <div class="form-group" style="margin-bottom: 20px;">
                             <label for="phone" style="display: block; margin-bottom: 8px; font-weight: 600;">Phone Number</label>
-                            <input type="tel" id="phone" name="phone" required placeholder="+1 (555) 000-0000" style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px;">
+                            <input type="tel" id="phone" name="phone" required placeholder="+63 917 123 4567" style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px;">
                         </div>
                         
                         <div style="display: flex; gap: 20px; margin-bottom: 20px;">
@@ -119,72 +111,92 @@ include 'includes/header.php';
                         </div>
                         
                         <div class="form-group" style="margin-bottom: 30px;">
-                            <label for="guests" style="display: block; margin-bottom: 8px; font-weight: 600;">Guests</label>
-                            <select id="guests" name="guests" style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px;">
+                            <label for="guests_adults" style="display: block; margin-bottom: 8px; font-weight: 600;">Adults</label>
+                            <select id="guests_adults" name="guests_adults" style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px; margin-bottom: 10px;">
                                 <option value="1">1 Adult</option>
-                                <option value="2">2 Adults</option>
-                                <option value="3">3 or more Adults</option>
+                                <option value="2" selected>2 Adults</option>
+                                <option value="3">3 Adults</option>
+                                <option value="4">4 Adults</option>
+                                <option value="5">5 or more Adults</option>
+                            </select>
+                            <label for="guests_children" style="display: block; margin-bottom: 8px; font-weight: 600;">Children</label>
+                            <select id="guests_children" name="guests_children" style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 4px;">
+                                <option value="0" selected>0 Children</option>
+                                <option value="1">1 Child</option>
+                                <option value="2">2 Children</option>
+                                <option value="3">3 Children</option>
+                                <option value="4">4 or more Children</option>
                             </select>
                         </div>
 
                         <div class="form-group" style="margin-bottom: 25px; padding: 20px; background: #f9f9f9; border: 1px solid #eaeaea; border-radius: 4px;">
                             <label style="font-weight: 600; display: block; margin-bottom: 15px;">Add Amenities</label>
                             
-                            <div style="display: flex; align-items: center; margin-bottom: 12px;">
-                                <input type="checkbox" id="amenity_1" name="amenities[]" value="1" style="margin-right: 10px; cursor: pointer;">
-                                <label for="amenity_1" style="cursor: pointer; margin: 0; width: 100%;">
-                                    <strong>Infinity Pool</strong>
-                                    <span style="color: var(--accent-color); font-weight: 600; float: right;">FREE</span>
-                                </label>
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+                                <div style="display: flex; align-items: center;">
+                                    <input type="checkbox" id="amenity_1" name="amenities[]" value="1" style="margin-right: 10px; cursor: pointer;">
+                                    <label for="amenity_1" style="cursor: pointer; margin: 0;">
+                                        <strong>Infinity Pool</strong>
+                                    </label>
+                                </div>
                             </div>
                             
-                            <div style="display: flex; align-items: center; margin-bottom: 12px;">
-                                <input type="checkbox" id="amenity_2" name="amenities[]" value="2" style="margin-right: 10px; cursor: pointer;">
-                                <label for="amenity_2" style="cursor: pointer; margin: 0; width: 100%;">
-                                    <strong>Fitness Center</strong>
-                                    <span style="color: var(--accent-color); font-weight: 600; float: right;">FREE</span>
-                                </label>
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+                                <div style="display: flex; align-items: center;">
+                                    <input type="checkbox" id="amenity_2" name="amenities[]" value="2" style="margin-right: 10px; cursor: pointer;">
+                                    <label for="amenity_2" style="cursor: pointer; margin: 0;">
+                                        <strong>Fitness Center</strong>
+                                    </label>
+                                </div>
                             </div>
                             
-                            <div style="display: flex; align-items: center;">
-                                <input type="checkbox" id="amenity_3" name="amenities[]" value="3" style="margin-right: 10px; cursor: pointer;">
-                                <label for="amenity_3" style="cursor: pointer; margin: 0; width: 100%;">
-                                    <strong>Serenity Spa</strong>
-                                    <span style="color: var(--accent-color); font-weight: 600; float: right;">+$50</span>
-                                </label>
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <div style="display: flex; align-items: center;">
+                                    <input type="checkbox" id="amenity_3" name="amenities[]" value="3" style="margin-right: 10px; cursor: pointer;">
+                                    <label for="amenity_3" style="cursor: pointer; margin: 0;">
+                                        <strong>Serenity Spa</strong>
+                                    </label>
+                                </div>
+                                <span style="color: var(--accent-color); font-weight: 600;">+<?php echo format_php(2500); ?></span>
                             </div>
                         </div>
 
                         <div class="form-group" style="margin-bottom: 30px; padding: 20px; background: #f9f9f9; border: 1px solid #eaeaea; border-radius: 4px;">
                             <label style="font-weight: 600; display: block; margin-bottom: 15px;">Add Dining Options</label>
                             
-                            <div style="display: flex; align-items: center; margin-bottom: 12px;">
-                                <input type="checkbox" id="dining_1" name="dining[]" value="1" style="margin-right: 10px; cursor: pointer;">
-                                <label for="dining_1" style="cursor: pointer; margin: 0; width: 100%;">
-                                    <strong>The Sky Lounge</strong>
-                                    <span style="color: var(--accent-color); font-weight: 600; float: right;">+$85</span>
-                                </label>
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+                                <div style="display: flex; align-items: center;">
+                                    <input type="checkbox" id="dining_1" name="dining[]" value="1" style="margin-right: 10px; cursor: pointer;">
+                                    <label for="dining_1" style="cursor: pointer; margin: 0;">
+                                        <strong>The Sky Lounge</strong>
+                                    </label>
+                                </div>
+                                <span style="color: var(--accent-color); font-weight: 600;">+<?php echo format_php(1500); ?></span>
                             </div>
                             
-                            <div style="display: flex; align-items: center; margin-bottom: 12px;">
-                                <input type="checkbox" id="dining_2" name="dining[]" value="2" style="margin-right: 10px; cursor: pointer;">
-                                <label for="dining_2" style="cursor: pointer; margin: 0; width: 100%;">
-                                    <strong>Artisan Café</strong>
-                                    <span style="color: var(--accent-color); font-weight: 600; float: right;">+$35</span>
-                                </label>
+                            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;">
+                                <div style="display: flex; align-items: center;">
+                                    <input type="checkbox" id="dining_2" name="dining[]" value="2" style="margin-right: 10px; cursor: pointer;">
+                                    <label for="dining_2" style="cursor: pointer; margin: 0;">
+                                        <strong>Artisan Café</strong>
+                                    </label>
+                                </div>
+                                <span style="color: var(--accent-color); font-weight: 600;">+<?php echo format_php(800); ?></span>
                             </div>
                             
-                            <div style="display: flex; align-items: center;">
-                                <input type="checkbox" id="dining_3" name="dining[]" value="3" style="margin-right: 10px; cursor: pointer;">
-                                <label for="dining_3" style="cursor: pointer; margin: 0; width: 100%;">
-                                    <strong>The Copper Bar</strong>
-                                    <span style="color: var(--accent-color); font-weight: 600; float: right;">+$45</span>
-                                </label>
+                            <div style="display: flex; align-items: center; justify-content: space-between;">
+                                <div style="display: flex; align-items: center;">
+                                    <input type="checkbox" id="dining_3" name="dining[]" value="3" style="margin-right: 10px; cursor: pointer;">
+                                    <label for="dining_3" style="cursor: pointer; margin: 0;">
+                                        <strong>The Copper Bar</strong>
+                                    </label>
+                                </div>
+                                <span style="color: var(--accent-color); font-weight: 600;">+<?php echo format_php(1000); ?></span>
                             </div>
                         </div>
 
                         <div class="price-estimate" style="text-align: center; margin-bottom: 20px; padding-top: 15px; border-top: 1px solid #eaeaea;">
-                            <p style="font-weight: 600; margin-bottom: 5px;">Estimated Total: <span id="total-price" style="color: var(--accent-color); font-size: 1.4rem;">$<?php echo h($room['price']); ?></span></p>
+                            <p style="font-weight: 600; margin-bottom: 5px;">Estimated Total: <span id="total-price" style="color: var(--accent-color); font-size: 1.4rem;"><?php echo format_php($room['price']); ?></span></p>
                             <small style="color: var(--secondary-color); font-size: 0.8rem;">NO PAYMENT REQUIRED AT THIS STEP</small>
                         </div>
                         

@@ -103,13 +103,20 @@ function h($string) {
 }
 
 /**
+ * Format Philippine Peso (₱)
+ */
+function format_php($amount) {
+    return '₱' . number_format($amount, 0, '.', ',');
+}
+
+/**
  * Get amenity pricing
  */
 function get_amenities_pricing() {
     return [
         1 => ['name' => 'Infinity Pool', 'price' => 0, 'category' => 'FREE'],
         2 => ['name' => 'Fitness Center', 'price' => 0, 'category' => 'FREE'],
-        3 => ['name' => 'Serenity Spa', 'price' => 50, 'category' => 'WELLNESS'],
+        3 => ['name' => 'Serenity Spa', 'price' => 2500, 'category' => 'WELLNESS'],
     ];
 }
 
@@ -118,9 +125,9 @@ function get_amenities_pricing() {
  */
 function get_dining_pricing() {
     return [
-        1 => ['name' => 'The Sky Lounge', 'price' => 85, 'category' => 'FINE DINING'],
-        2 => ['name' => 'Artisan Café', 'price' => 35, 'category' => 'CASUAL'],
-        3 => ['name' => 'The Copper Bar', 'price' => 45, 'category' => 'BAR & GRILL'],
+        1 => ['name' => 'The Sky Lounge', 'price' => 1500, 'category' => 'FINE DINING'],
+        2 => ['name' => 'Artisan Café', 'price' => 800, 'category' => 'CASUAL'],
+        3 => ['name' => 'The Copper Bar', 'price' => 1000, 'category' => 'BAR & GRILL'],
     ];
 }
 
@@ -169,7 +176,7 @@ function calculate_booking_total($booking, $room) {
     // Calculate room charges
     $room_rate = (float)$room['price'];
     $room_total = $room_rate * $nights;
-    $service_fee = 25;
+    $service_fee = 500;
     $subtotal = $room_total + $service_fee;
     
     // Calculate amenities and dining charges

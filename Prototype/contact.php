@@ -43,8 +43,8 @@ include 'includes/header.php';
                     <span>VISIT US</span>
                     <h3>Our Location</h3>
                 </div>
-                <p style="font-size: 1.1rem; color: var(--primary-color); margin-bottom: 10px;">123 Luxury Avenue, Paradise City</p>
-                <p><strong>Phone:</strong> +1 (234) 567-890</p>
+                <p style="font-size: 1.1rem; color: var(--primary-color); margin-bottom: 10px;">123 Luxury Avenue, Manila, Philippines</p>
+                        <p><strong>Phone:</strong> +63 917 123 4567</p>
                 <p><strong>Email:</strong> info@ralmitrokij.com</p>
                 
                 <div class="room-gallery-placeholder" style="height: 250px; margin-top: 40px; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">

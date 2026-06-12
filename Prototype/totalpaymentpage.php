@@ -46,7 +46,7 @@ foreach($bookings as $booking) {
     $room_total = $room_rate * $nights;
     $total_room_revenue += $room_total;
     
-    $service_fee = 25;
+    $service_fee = 500;
     $total_service_fees += $service_fee;
 
     // 4. Calculate amenities charges & counts
@@ -107,7 +107,7 @@ include 'includes/header.php';
             </div>
             <div class="booking-card" style="padding: 30px; text-align: center; border-bottom: 4px solid var(--accent-color);">
                 <span style="color: var(--secondary-color); font-size: 0.9rem; text-transform: uppercase;">Total Revenue</span>
-                <h3 style="font-size: 2.5rem; margin-top: 10px; color: var(--accent-color);">$<?php echo number_format($grand_total_revenue, 2); ?></h3>
+                <h3 style="font-size: 2.5rem; margin-top: 10px; color: var(--accent-color);"><?php echo format_php($grand_total_revenue); ?></h3>
             </div>
         </div>
 
@@ -138,7 +138,7 @@ include 'includes/header.php';
                                     </td>
                                     <td style="text-align: center; font-weight: 600;"><?php echo $count; ?></td>
                                     <td style="text-align: right; color: var(--secondary-color);">
-                                        <?php echo $amenities[$am_id]['price'] > 0 ? '$' . number_format($amenities[$am_id]['price'], 2) : '<span style="color: var(--accent-color);">FREE</span>'; ?>
+                                        <?php echo $amenities[$am_id]['price'] > 0 ? format_php($amenities[$am_id]['price']) : '<span style="color: var(--accent-color);">FREE</span>'; ?>
                                     </td>
                                 </tr>
                                 <?php endif; ?>
@@ -173,7 +173,7 @@ include 'includes/header.php';
                                         <span style="font-size: 0.85rem; color: var(--secondary-color);"><?php echo h($dining_options[$din_id]['category']); ?></span>
                                     </td>
                                     <td style="text-align: center; font-weight: 600;"><?php echo $count; ?></td>
-                                    <td style="text-align: right; color: var(--secondary-color);">$<?php echo number_format($dining_options[$din_id]['price'], 2); ?></td>
+                                    <td style="text-align: right; color: var(--secondary-color);"><?php echo format_php($dining_options[$din_id]['price']); ?></td>
                                 </tr>
                                 <?php endif; ?>
                             <?php endforeach; ?>
@@ -195,37 +195,37 @@ include 'includes/header.php';
 
                     <div style="display: flex; justify-content: space-between; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid var(--border-color);">
                         <span style="font-size: 0.9rem; color: var(--secondary-color);">Total Room Charges</span>
-                        <span style="font-weight: 600;">$<?php echo number_format($total_room_revenue, 2); ?></span>
+                        <span style="font-weight: 600;"><?php echo format_php($total_room_revenue); ?></span>
                     </div>
 
                     <div style="display: flex; justify-content: space-between; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid var(--border-color);">
                         <span style="font-size: 0.9rem; color: var(--secondary-color);">Accumulated Service Fees</span>
-                        <span style="font-weight: 600;">$<?php echo number_format($total_service_fees, 2); ?></span>
+                        <span style="font-weight: 600;"><?php echo format_php($total_service_fees); ?></span>
                     </div>
 
                     <div style="display: flex; justify-content: space-between; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid var(--border-color);">
                         <span style="font-size: 0.9rem; color: var(--secondary-color);">Amenities Revenue</span>
-                        <span style="font-weight: 600;">$<?php echo number_format($total_amenities_revenue, 2); ?></span>
+                        <span style="font-weight: 600;"><?php echo format_php($total_amenities_revenue); ?></span>
                     </div>
 
                     <div style="display: flex; justify-content: space-between; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid var(--border-color);">
                         <span style="font-size: 0.9rem; color: var(--secondary-color);">Dining Revenue</span>
-                        <span style="font-weight: 600;">$<?php echo number_format($total_dining_revenue, 2); ?></span>
+                        <span style="font-weight: 600;"><?php echo format_php($total_dining_revenue); ?></span>
                     </div>
 
                     <div style="display: flex; justify-content: space-between; margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid var(--border-color);">
                         <span style="font-size: 0.9rem; color: var(--secondary-color);">Total Subtotal</span>
-                        <span style="font-weight: 600;">$<?php echo number_format($overall_subtotal, 2); ?></span>
+                        <span style="font-weight: 600;"><?php echo format_php($overall_subtotal); ?></span>
                     </div>
 
                     <div style="display: flex; justify-content: space-between; margin-bottom: 25px;">
                         <span style="font-size: 0.9rem; color: var(--secondary-color);">Total Taxes Collected (12%)</span>
-                        <span style="font-weight: 600;">$<?php echo number_format($overall_tax, 2); ?></span>
+                        <span style="font-weight: 600;"><?php echo format_php($overall_tax); ?></span>
                     </div>
 
                     <div style="border-top: 2px solid var(--accent-color); padding-top: 25px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px;">
                         <span style="font-family: var(--font-header); font-size: 1.2rem;">Total Revenue</span>
-                        <span style="font-family: var(--font-header); font-size: 2rem; color: var(--accent-color);">$<?php echo number_format($grand_total_revenue, 2); ?></span>
+                        <span style="font-family: var(--font-header); font-size: 2rem; color: var(--accent-color);"><?php echo format_php($grand_total_revenue); ?></span>
                     </div>
                 </div>
             </div>

@@ -17,9 +17,9 @@ $root_index = dirname($base_url) . '/index.php';
         <div class="container footer-grid">
             <div class="footer-info">
                 <h3>RALMITROKIJ HOTEL</h3>
-                <p>123 Luxury Avenue, Paradise City</p>
-                <p>Phone: +1 (234) 567-890</p>
-                <p>Email: info@ralmitrokij.com</p>
+                <p>123 Luxury Avenue, Manila, Philippines</p>
+                        <p>Phone: +63 917 123 4567</p>
+                        <p>Email: info@ralmitrokij.com</p>
             </div>
             <div class="footer-links">
                 <h3>QUICK LINKS</h3>
@@ -80,12 +80,24 @@ $root_index = dirname($base_url) . '/index.php';
                     </div>
                 </div>
                 
-                <div class="form-group" style="margin-bottom: 30px;">
-                    <label for="modal_guests">Guests</label>
-                    <select id="modal_guests" name="guests">
+                <div class="form-group" style="margin-bottom: 15px;">
+                    <label for="modal_guests_adults">Adults</label>
+                    <select id="modal_guests_adults" name="guests_adults">
                         <option value="1">1 Adult</option>
-                        <option value="2">2 Adults</option>
+                        <option value="2" selected>2 Adults</option>
                         <option value="3">3 Adults</option>
+                        <option value="4">4 Adults</option>
+                        <option value="5">5 or more Adults</option>
+                    </select>
+                </div>
+                <div class="form-group" style="margin-bottom: 30px;">
+                    <label for="modal_guests_children">Children</label>
+                    <select id="modal_guests_children" name="guests_children">
+                        <option value="0" selected>0 Children</option>
+                        <option value="1">1 Child</option>
+                        <option value="2">2 Children</option>
+                        <option value="3">3 Children</option>
+                        <option value="4">4 or more Children</option>
                     </select>
                 </div>
 

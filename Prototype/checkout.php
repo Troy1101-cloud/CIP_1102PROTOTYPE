@@ -40,7 +40,7 @@ $nights = $interval->days;
 // Calculate room charges
 $room_rate = (float)$room['price'];
 $room_total = $room_rate * $nights;
-$service_fee = 25;
+$service_fee = 500;
 $subtotal = $room_total + $service_fee;
 
 // Calculate amenities charges
@@ -84,7 +84,7 @@ include 'includes/header.php';
                         </div>
                         <div>
                             <p style="margin-bottom: 10px;"><strong style="color: var(--secondary-color); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Stay:</strong><br><?php echo h($booking['check_in']); ?> &mdash; <?php echo h($booking['check_out']); ?></p>
-                            <p><strong style="color: var(--secondary-color); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Occupancy:</strong><br><?php echo h($booking['guests']); ?> Adult(s)</p>
+                            <p><strong style="color: var(--secondary-color); font-size: 0.8rem; text-transform: uppercase; letter-spacing: 1px;">Occupancy:</strong><br><?php echo h($booking['guests_adults'] ?? 0); ?> Adult(s), <?php echo h($booking['guests_children'] ?? 0); ?> Children</p>
                         </div>
                     </div>
                 </div>
@@ -101,13 +101,13 @@ include 'includes/header.php';
                             <label class="payment-option" style="display: block; padding: 20px; border: 1px solid var(--border-color); margin-bottom: 15px; cursor: pointer; transition: all 0.3s;">
                                 <input type="radio" name="payment_method" value="credit_card" checked>
                                 <strong style="margin-left: 10px; font-family: var(--font-header); letter-spacing: 1px;">Credit Card</strong>
-                                <p style="font-size: 0.8rem; color: var(--secondary-color); margin-top: 5px; margin-left: 28px;">Visa, Mastercard, AMEX</p>
+                                <p style="font-size: 0.8rem; color: var(--secondary-color); margin-top: 5px; margin-left: 28px;">Visa, Mastercard</p>
                             </label>
                             
                             <label class="payment-option" style="display: block; padding: 20px; border: 1px solid var(--border-color); margin-bottom: 15px; cursor: pointer; transition: all 0.3s;">
                                 <input type="radio" name="payment_method" value="ewallet">
                                 <strong style="margin-left: 10px; font-family: var(--font-header); letter-spacing: 1px;">E-Wallets</strong>
-                                <p style="font-size: 0.8rem; color: var(--secondary-color); margin-top: 5px; margin-left: 28px;">GCash, Maya, MariBank</p>
+                                <p style="font-size: 0.8rem; color: var(--secondary-color); margin-top: 5px; margin-left: 28px;">GCash, Maya</p>
                             </label>
                             
                             <label class="payment-option" style="display: block; padding: 20px; border: 1px solid var(--border-color); margin-bottom: 15px; cursor: pointer; transition: all 0.3s;">
@@ -151,31 +151,31 @@ include 'includes/header.php';
                     </div>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
                         <span style="font-size: 0.9rem; color: var(--secondary-color);">Room (<?php echo $nights; ?> night<?php echo $nights !== 1 ? 's' : ''; ?>)</span>
-                        <span style="font-weight: 600;">$<?php echo number_format($room_total, 2); ?></span>
+                        <span style="font-weight: 600;"><?php echo format_php($room_total); ?></span>
                     </div>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
                         <span style="font-size: 0.9rem; color: var(--secondary-color);">Service Fee</span>
-                        <span style="font-weight: 600;">$<?php echo number_format($service_fee, 2); ?></span>
+                        <span style="font-weight: 600;"><?php echo format_php($service_fee); ?></span>
                     </div>
                     <?php if ($amenities_total > 0): ?>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
                         <span style="font-size: 0.9rem; color: var(--secondary-color);">Amenities</span>
-                        <span style="font-weight: 600;">$<?php echo number_format($amenities_total, 2); ?></span>
+                        <span style="font-weight: 600;"><?php echo format_php($amenities_total); ?></span>
                     </div>
                     <?php endif; ?>
                     <?php if ($dining_total > 0): ?>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
                         <span style="font-size: 0.9rem; color: var(--secondary-color);">Dining</span>
-                        <span style="font-weight: 600;">$<?php echo number_format($dining_total, 2); ?></span>
+                        <span style="font-weight: 600;"><?php echo format_php($dining_total); ?></span>
                     </div>
                     <?php endif; ?>
                     <div style="display: flex; justify-content: space-between; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid var(--border-color);">
                         <span style="font-size: 0.9rem; color: var(--secondary-color);">Tax (12%)</span>
-                        <span style="font-weight: 600;">$<?php echo number_format($tax, 2); ?></span>
+                        <span style="font-weight: 600;"><?php echo format_php($tax); ?></span>
                     </div>
                     <div style="border-top: 1px solid var(--border-color); padding-top: 25px; display: flex; justify-content: space-between; align-items: center;">
                         <span style="font-family: var(--font-header); font-size: 1.2rem;">Total</span>
-                        <span style="font-family: var(--font-header); font-size: 1.8rem; color: var(--accent-color);">$<?php echo number_format($grand_total, 2); ?></span>
+                        <span style="font-family: var(--font-header); font-size: 1.8rem; color: var(--accent-color);"><?php echo format_php($grand_total); ?></span>
                     </div>
                     <p style="font-size: 0.8rem; color: var(--secondary-color); margin-top: 20px; text-align: center;">
                         <a href="totalpaymentpage.php?booking_id=<?php echo $booking_id; ?>" style="color: var(--primary-color); text-decoration: underline;">View Detailed Breakdown →</a>

@@ -59,7 +59,7 @@ function get_room_picture($room_name) {
                         <img src="<?php echo $image_src; ?>" alt="<?php echo h($room['name']); ?>" style="width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.3s ease;">
                         
                         <div style="position: absolute; bottom: 15px; right: 15px; background: var(--primary-color, #111); color: #fff; padding: 8px 15px; font-family: var(--font-header); font-size: 0.9rem; letter-spacing: 1px; font-weight: 600;">
-                            $<?php echo number_format($room['price'], 2); ?> / NT
+                            <?php echo format_php($room['price']); ?> / NT
                         </div>
                     </div>
 
