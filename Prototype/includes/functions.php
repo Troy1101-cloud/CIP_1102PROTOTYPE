@@ -10,19 +10,19 @@
 function validate_booking($data) {
     $errors = [];
     
-    if (empty(trim($data['first_name']))) {
+    if (empty(trim($data['first_name'] ?? ''))) {
         $errors['first_name'] = 'First name is required.';
     }
     
-    if (empty(trim($data['last_name']))) {
+    if (empty(trim($data['last_name'] ?? ''))) {
         $errors['last_name'] = 'Last name is required.';
     }
     
-    if (empty(trim($data['email'])) || !filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+    if (empty(trim($data['email'] ?? '')) || !filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
         $errors['email'] = 'A valid email address is required.';
     }
     
-    if (empty(trim($data['phone']))) {
+    if (empty(trim($data['phone'] ?? ''))) {
         $errors['phone'] = 'Phone number is required.';
     }
     

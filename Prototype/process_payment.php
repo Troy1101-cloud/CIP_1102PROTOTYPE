@@ -2,7 +2,7 @@
 require_once 'includes/db.php';
 require_once 'includes/functions.php';
 
-if (isset($_POST['submit_payment'])) {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $booking_id = (int)$_POST['booking_id'];
     $payment_method = $_POST['payment_method'];
     $is_simulation = isset($_POST['simulation_complete']) ? true : false;

@@ -24,7 +24,11 @@ function get_all_data($filename) {
 function save_data($filename, $data) {
     $file = DATA_PATH . $filename . '.json';
     $json = json_encode($data, JSON_PRETTY_PRINT);
-    return file_put_contents($file, $json);
+    $result = file_put_contents($file, $json);
+    if ($result === false) {
+        die("System Error: Unable to save data to {$file}. Please check directory permissions.");
+    }
+    return $result;
 }
 
 /**

@@ -16,30 +16,31 @@ if (!function_exists('get_room_picture')) {
     }
 }
 
-$search_results = [];
+// Always fetch and sort rooms so they display on GET requests too
+$search_results = get_all_data('rooms');
+
+// Sort the search results in the exact order: Standard, Deluxe, and Grand Suite
+usort($search_results, function($a, $b) {
+    $nameA = strtolower($a['name']);
+    $nameB = strtolower($b['name']);
+    
+    $weightA = 99; 
+    $weightB = 99;
+
+    if (strpos($nameA, 'standard') !== false) $weightA = 1;
+    elseif (strpos($nameA, 'deluxe') !== false) $weightA = 2;
+    elseif (strpos($nameA, 'grand') !== false || strpos($nameA, 'suite') !== false) $weightA = 3;
+
+    if (strpos($nameB, 'standard') !== false) $weightB = 1;
+    elseif (strpos($nameB, 'deluxe') !== false) $weightB = 2;
+    elseif (strpos($nameB, 'grand') !== false || strpos($nameB, 'suite') !== false) $weightB = 3;
+
+    return $weightA <=> $weightB;
+});
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // In a real app, we'd filter rooms based on availability for these dates
-    // For the prototype, we just return all rooms to simulate a "search result"
-    $search_results = get_all_data('rooms');
-    
-    // Sort the search results in the exact order: Standard, Deluxe, and Grand Suite
-    usort($search_results, function($a, $b) {
-        $nameA = strtolower($a['name']);
-        $nameB = strtolower($b['name']);
-        
-        $weightA = 99; 
-        $weightB = 99;
-
-        if (strpos($nameA, 'standard') !== false) $weightA = 1;
-        elseif (strpos($nameA, 'deluxe') !== false) $weightA = 2;
-        elseif (strpos($nameA, 'grand') !== false || strpos($nameA, 'suite') !== false) $weightA = 3;
-
-        if (strpos($nameB, 'standard') !== false) $weightB = 1;
-        elseif (strpos($nameB, 'deluxe') !== false) $weightB = 2;
-        elseif (strpos($nameB, 'grand') !== false || strpos($nameB, 'suite') !== false) $weightB = 3;
-
-        return $weightA <=> $weightB;
-    });
+    // For the prototype, all rooms are returned
 }
 
 include 'includes/header.php';

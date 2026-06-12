@@ -2,15 +2,12 @@
 // Define base URL to handle both root and Prototype paths
 $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
 $host = $_SERVER['HTTP_HOST'];
-$script_name = $_SERVER['SCRIPT_NAME'];
-$script_dir = dirname($script_name);
-// Check if we are inside Prototype folder or not
-if (basename($script_dir) === 'Prototype') {
-    $base_url = $protocol . '://' . $host . $script_dir . '/';
-} else {
-    $base_url = $protocol . '://' . $host . $script_dir . '/Prototype/';
+$script_dir = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']));
+if ($script_dir === '/' || $script_dir === '\\') {
+    $script_dir = '';
 }
-$root_index = dirname($base_url) . '/index.php';
+$base_url = $protocol . '://' . $host . $script_dir . '/';
+$root_index = $base_url . 'index.php';
 ?>
     </main>
     <footer class="main-footer">

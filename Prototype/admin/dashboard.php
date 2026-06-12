@@ -62,11 +62,13 @@ $stmt = $pdo->query("SELECT COUNT(*) AS count FROM reservations");
 $total_reservations = $stmt->fetch()['count'];
 
 // Get today's revenue
-$stmt = $pdo->query("SELECT COALESCE(SUM(total_cost), 0) AS total FROM reservations WHERE DATE(created_at) = '$today'");
+$stmt = $pdo->prepare("SELECT COALESCE(SUM(total_cost), 0) AS total FROM reservations WHERE DATE(created_at) = ?");
+$stmt->execute([$today]);
 $today_revenue = $stmt->fetch()['total'];
 
 // Get monthly revenue
-$stmt = $pdo->query("SELECT COALESCE(SUM(total_cost), 0) AS total FROM reservations WHERE DATE_FORMAT(created_at, '%Y-%m') = '$current_month'");
+$stmt = $pdo->prepare("SELECT COALESCE(SUM(total_cost), 0) AS total FROM reservations WHERE DATE_FORMAT(created_at, '%Y-%m') = ?");
+$stmt->execute([$current_month]);
 $monthly_revenue = $stmt->fetch()['total'];
 
 // Get audit logs

@@ -1,1 +1,167 @@
-[]
+[
+    {
+        "first_name": "Sean Owen",
+        "last_name": "test",
+        "email": "refolledosean@gmail.com",
+        "phone": "09171111001",
+        "check_in": "2026-06-13",
+        "check_out": "2026-06-13",
+        "room_id": "1",
+        "guests_adults": "2",
+        "guests_children": "3",
+        "special_requests": "",
+        "amenities": [
+            "1",
+            "2"
+        ],
+        "dining": [
+            "3"
+        ],
+        "id": 1,
+        "status": "pending",
+        "payment_status": "unpaid",
+        "created_at": "2026-06-12 19:28:57"
+    },
+    {
+        "first_name": "Sean Owen",
+        "last_name": "test",
+        "email": "refolledosean@gmail.com",
+        "phone": "09123123123232",
+        "check_in": "2026-06-13",
+        "check_out": "2026-06-13",
+        "room_id": "1",
+        "guests_adults": "2",
+        "guests_children": "0",
+        "special_requests": "",
+        "amenities": [],
+        "dining": [],
+        "id": 2,
+        "status": "pending",
+        "payment_status": "unpaid",
+        "created_at": "2026-06-12 19:30:11"
+    },
+    {
+        "first_name": "Sean Owen",
+        "last_name": "testest",
+        "email": "seanowenrefolledo@gmail.com",
+        "phone": "09123123123232",
+        "check_in": "2026-06-13",
+        "check_out": "2026-06-13",
+        "room_id": "3",
+        "guests_adults": "2",
+        "guests_children": "0",
+        "special_requests": "",
+        "amenities": [],
+        "dining": [],
+        "id": 3,
+        "status": "pending",
+        "payment_status": "unpaid",
+        "created_at": "2026-06-12 20:10:13"
+    },
+    {
+        "first_name": "Sean Owen",
+        "last_name": "test2",
+        "email": "refolledo.seanowen@ue.edu.ph",
+        "phone": "09123123123232",
+        "check_in": "2026-06-13",
+        "check_out": "2026-06-13",
+        "room_id": "3",
+        "guests_adults": "2",
+        "guests_children": "0",
+        "special_requests": "",
+        "amenities": [
+            "1"
+        ],
+        "dining": [
+            "2"
+        ],
+        "id": 4,
+        "status": "confirmed",
+        "payment_status": "paid",
+        "created_at": "2026-06-12 20:11:44",
+        "payment_method": "ewallet",
+        "transaction_id": "TXN6A2C4C0732544"
+    },
+    {
+        "first_name": "Sean Owen",
+        "last_name": "test",
+        "email": "refolledosean@gmail.com",
+        "phone": "09171111001",
+        "check_in": "2026-06-13",
+        "check_out": "2026-06-13",
+        "room_id": "1",
+        "guests_adults": "2",
+        "guests_children": "0",
+        "special_requests": "",
+        "amenities": [],
+        "dining": [
+            "3"
+        ],
+        "id": 5,
+        "status": "pending",
+        "payment_status": "unpaid",
+        "created_at": "2026-06-12 20:12:58"
+    },
+    {
+        "first_name": "Sean Owen",
+        "last_name": "test",
+        "email": "seanowenrefolledo@gmail.com",
+        "phone": "12321",
+        "check_in": "11232-12-12",
+        "check_out": "0002-12-31",
+        "room_id": "2",
+        "guests_adults": "2",
+        "guests_children": "0",
+        "special_requests": "",
+        "amenities": [],
+        "dining": [],
+        "id": 6,
+        "status": "pending",
+        "payment_status": "unpaid",
+        "created_at": "2026-06-12 20:20:10"
+    },
+    {
+        "first_name": "Test",
+        "last_name": "User",
+        "email": "test@example.com",
+        "phone": "123",
+        "check_in": "2024-01-01",
+        "check_out": "2024-01-02",
+        "room_id": "1",
+        "guests_adults": 2,
+        "guests_children": 0,
+        "special_requests": "",
+        "amenities": [],
+        "dining": [],
+        "id": 7,
+        "status": "pending",
+        "payment_status": "unpaid",
+        "created_at": "2026-06-12 20:22:11"
+    },
+    {
+        "first_name": "Jay Ralph",
+        "last_name": "Carillo",
+        "email": "carillo.jayralph@gmail.com",
+        "phone": "09087097157",
+        "check_in": "2026-06-13",
+        "check_out": "2026-06-14",
+        "room_id": "1",
+        "guests_adults": "2",
+        "guests_children": "0",
+        "special_requests": "",
+        "amenities": [
+            "1",
+            "2"
+        ],
+        "dining": [
+            "2",
+            "3"
+        ],
+        "id": 8,
+        "status": "confirmed",
+        "payment_status": "paid",
+        "created_at": "2026-06-12 20:29:24",
+        "payment_method": "credit_card",
+        "transaction_id": "TXN6A2C500B6BE4D"
+    }
+]

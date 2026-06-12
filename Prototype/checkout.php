@@ -27,6 +27,11 @@ foreach($rooms as $r) {
     }
 }
 
+if (!$room) {
+    header('Location: index.php');
+    exit;
+}
+
 // Define amenities and dining with prices
 $amenities = get_amenities_pricing();
 $dining_options = get_dining_pricing();
