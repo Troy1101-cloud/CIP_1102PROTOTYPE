@@ -46,8 +46,11 @@ $service_fee = 500;
 $amenities_total = calculate_amenities_total($booking['amenities']);
 $dining_total = calculate_dining_total($booking['dining']);
 $subtotal = $room_total + $service_fee + $amenities_total + $dining_total;
-$vat = $subtotal * 0.12;
-$total = $subtotal + $vat;
+// Discounts/Promo (we'll add a field for this later, for now 0)
+$discount = 0;
+$subtotal_after_discount = $subtotal - $discount;
+$vat = $subtotal_after_discount * 0.12;
+$total = $subtotal_after_discount + $vat;
 
 // Generate booking reference number
 $booking_ref = 'RM' . date('Ymd') . str_pad($booking_id, 4, '0', STR_PAD_LEFT);
@@ -62,9 +65,9 @@ include 'includes/header.php';
             <h2>Total Payment Report</h2>
         </div>
 
-        <div class="grid-3" style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px;">
             <!-- Left Column -->
-            <div class="left-column">
+            <div>
                 <!-- 1. Guest Information -->
                 <div class="booking-card" style="padding: 30px; margin-bottom: 30px;">
                     <div class="section-title" style="text-align: left; margin-bottom: 20px;">
@@ -77,8 +80,8 @@ include 'includes/header.php';
                         <p><strong>Mobile Number:</strong><br><?php echo h($booking['phone']); ?></p>
                         <p>
                             <strong>Number of Guests:</strong><br>
-                            <?php echo h($booking['guests_adults']); ?> Adult(s), 
-                            <?php echo h($booking['guests_children']); ?> Children
+                            <?php echo h($booking['guests_adults'] ?? 0); ?> Adult(s), 
+                            <?php echo h($booking['guests_children'] ?? 0); ?> Children
                         </p>
                         <p><strong>Check-in Date:</strong><br><?php echo h($booking['check_in']); ?></p>
                         <p><strong>Check-out Date:</strong><br><?php echo h($booking['check_out']); ?></p>
@@ -153,7 +156,7 @@ include 'includes/header.php';
             </div>
 
             <!-- Right Column -->
-            <div class="right-column">
+            <div>
                 <!-- 4. Booking Price Summary -->
                 <div class="booking-card" style="padding: 30px; margin-bottom: 30px; position: sticky; top: 100px;">
                     <div class="section-title" style="text-align: left; margin-bottom: 20px;">
@@ -186,6 +189,10 @@ include 'includes/header.php';
                             <span style="font-weight: 600;"><?php echo format_php($subtotal); ?></span>
                         </p>
                         <p style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                            <span>Discounts/Promo Codes</span>
+                            <span style="font-weight: 600; color: #28a745;">-<?php echo format_php($discount); ?></span>
+                        </p>
+                        <p style="display: flex; justify-content: space-between; margin-bottom: 8px;">
                             <span>VAT (12%)</span>
                             <span style="font-weight: 600;"><?php echo format_php($vat); ?></span>
                         </p>
@@ -202,9 +209,11 @@ include 'includes/header.php';
                         <input type="hidden" name="booking_id" value="<?php echo $booking_id; ?>">
                         <input type="hidden" name="booking_ref" value="<?php echo $booking_ref; ?>">
                         <input type="hidden" name="payment_method" id="selected_payment_method" value="gcash">
-                        <button type="submit" name="submit_reservation" class="btn-primary" style="width: 100%; padding: 18px; font-size: 1.1rem;">
-                            Submit Reservation
-                        </button>
+                        <div style="text-align: center;">
+                            <button type="submit" name="submit_reservation" class="btn-primary" style="width: 100%; padding: 18px; font-size: 1.1rem;">
+                                Submit Reservation
+                            </button>
+                        </div>
                     </form>
                 </div>
 

@@ -25,8 +25,8 @@ if (isset($_POST['submit'])) {
         // Save booking and get ID
         $booking_id = save_booking($booking_data);
         
-        // Redirect to total payment report page
-        header("Location: total-payment-report.php?booking_id=" . $booking_id);
+        // Redirect to checkout for payment
+        header("Location: checkout.php?booking_id=" . $booking_id);
         exit;
     } else {
         // In a real app, we'd pass errors back to the form
