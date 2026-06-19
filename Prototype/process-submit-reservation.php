@@ -1,5 +1,5 @@
 <?php
-require_once 'includes/db.php';
+require_once 'includes/db_connect.php';
 require_once 'includes/functions.php';
 
 if (isset($_POST['submit_reservation'])) {
@@ -8,32 +8,19 @@ if (isset($_POST['submit_reservation'])) {
     $payment_method = isset($_POST['payment_method']) ? $_POST['payment_method'] : '';
     $booking_ref = isset($_POST['booking_ref']) ? $_POST['booking_ref'] : '';
 
-    // Get all bookings
-    $bookings = get_all_data('bookings');
-    $booking_found = false;
-
-    // Update booking
-    foreach ($bookings as &$booking) {
-        if ($booking['id'] === $booking_id) {
-            $booking['payment_method'] = $payment_method;
-            $booking['booking_ref'] = $booking_ref;
-            $booking['status'] = 'confirmed';
-            $booking_found = true;
-            break;
+    if ($booking_id > 0) {
+        $stmt = $pdo->prepare("UPDATE reservations SET payment_method = ?, booking_ref = ?, status = 'confirmed' WHERE id = ?");
+        $stmt->execute([$payment_method, $booking_ref, $booking_id]);
+        
+        if ($stmt->rowCount() > 0) {
+            // Redirect to success page
+            header("Location: reservation-success.php?booking_ref=" . urlencode($booking_ref));
+            exit;
         }
     }
-
-    // Save updated bookings
-    if ($booking_found) {
-        save_data('bookings', $bookings);
-        
-        // Redirect to success page
-        header("Location: reservation-success.php?booking_ref=" . urlencode($booking_ref));
-        exit;
-    } else {
-        header("Location: rooms.php");
-        exit;
-    }
+    
+    header("Location: rooms.php");
+    exit;
 } else {
     header("Location: rooms.php");
     exit;

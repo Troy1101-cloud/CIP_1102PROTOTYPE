@@ -5,7 +5,7 @@
 
 :root {
     --primary-color: #1a1a1a;
-    --secondary-color: #666;
+    --secondary-color: #666666;
     --accent-color: #d4af37; /* Luxury Gold */
     --accent-hover: #b8962e;
     --bg-light: #faf9f6; /* Elegant Cream */
@@ -15,6 +15,14 @@
     --border-color: #e0e0e0;
     --font-header: 'Playfair Display', serif;
     --font-body: 'Montserrat', sans-serif;
+
+    /* UX Pro Max Tokens */
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 400ms cubic-bezier(0.4, 0, 0.2, 1);
+    --touch-target: 44px;
+    --focus-ring: 2px solid var(--accent-color);
+    --focus-offset: 2px;
 }
 
 * {
@@ -55,7 +63,12 @@ p {
 a {
     text-decoration: none;
     color: inherit;
-    transition: all 0.3s ease;
+    transition: all var(--transition-base);
+}
+
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+    outline: var(--focus-ring);
+    outline-offset: var(--focus-offset);
 }
 
 ul {
@@ -64,7 +77,10 @@ ul {
 
 /* Buttons */
 .btn-primary, .btn-secondary {
-    display: inline-block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: var(--touch-target);
     padding: 14px 32px;
     border: none;
     cursor: pointer;
@@ -72,7 +88,7 @@ ul {
     text-transform: uppercase;
     letter-spacing: 2px;
     font-size: 0.8rem;
-    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: all var(--transition-base);
 }
 
 .btn-primary {
@@ -92,10 +108,19 @@ ul {
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
+.btn-primary:active {
+    transform: translateY(0) scale(0.98);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
 .btn-secondary:hover {
     background: var(--accent-color);
     color: var(--white);
     transform: translateY(-2px);
+}
+
+.btn-secondary:active {
+    transform: translateY(0) scale(0.98);
 }
 
 /* Header */
@@ -161,17 +186,21 @@ ul {
     opacity: 0.7;
 }
 
+.mobile-menu-btn {
+    display: none; /* Hidden by default on desktop */
+}
+
 /* Hero Section */
 .hero {
     position: relative;
     height: 80vh;
+    min-height: 600px;
     background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('../../pictures/grandsuite.jpg') center/cover no-repeat;
     display: flex;
     align-items: center;
     justify-content: center;
     color: var(--white);
     text-align: center;
-    overflow: hidden;
 }
 
 .hero-content {
@@ -212,12 +241,14 @@ ul {
     z-index: 10;
     box-shadow: 0 15px 50px rgba(0,0,0,0.1);
     display: flex;
+    flex-wrap: wrap;
     gap: 20px;
     align-items: flex-end;
 }
 
 .form-group {
-    flex: 1;
+    flex: 1 1 auto;
+    min-width: 130px;
 }
 
 .form-group label {
@@ -232,22 +263,24 @@ ul {
 
 .form-group input, .form-group select, .form-group textarea {
     width: 100%;
+    min-height: var(--touch-target);
     padding: 12px 15px;
     border: 1px solid var(--border-color);
     font-family: var(--font-body);
-    font-size: 0.9rem;
+    font-size: 16px; /* Prevents iOS auto-zoom */
     color: var(--primary-color);
     outline: none;
-    transition: border-color 0.3s;
+    transition: border-color var(--transition-base), box-shadow var(--transition-base);
 }
 
-.form-group input:focus, .form-group select:focus {
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
     border-color: var(--accent-color);
+    box-shadow: 0 0 0 var(--focus-offset) rgba(212, 175, 55, 0.2);
 }
 
 /* Content Grids */
 .section-padding {
-    padding: 100px 0;
+    padding: 50px 0;
 }
 
 .section-title {
@@ -279,13 +312,13 @@ ul {
 /* Room/Amenity Cards */
 .room-card {
     background: var(--white);
-    transition: all 0.4s ease;
+    transition: all var(--transition-base);
     border: 1px solid rgba(0,0,0,0.03);
 }
 
 .room-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+    transform: translateY(-8px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
 }
 
 .room-image {
@@ -298,11 +331,12 @@ ul {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transform: scale(1.05); /* Slight zoom to hide built-in white letterboxes */
     transition: transform 0.8s ease;
 }
 
 .room-card:hover .room-image img {
-    transform: scale(1.1);
+    transform: scale(1.15);
 }
 
 .category-label {
@@ -648,16 +682,6 @@ ul {
     object-fit: cover;
 }
 
-.category-label {
-    position: absolute;
-    top: 15px;
-    left: 15px;
-    background: var(--white);
-    padding: 4px 10px;
-    font-size: 0.7rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
 
 .room-content {
     padding: 20px;
@@ -766,31 +790,146 @@ ul {
 input:focus, select:focus, textarea:focus {
     outline: none;
     border-color: var(--accent-color);
+    box-shadow: 0 0 0 var(--focus-offset) rgba(212, 175, 55, 0.2);
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 992px) {
     .grid-3 {
         grid-template-columns: repeat(2, 1fr);
     }
+}
+
+@media (max-width: 768px) {
+    /* Layout & Grids */
+    .grid-3, .grid-2, .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
     
-    .main-nav {
-        display: none; /* In a real app, implement a hamburger menu */
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+    
+    .hero {
+        height: auto;
+        min-height: 100vh;
+        padding: 120px 0 150px 0;
+    }
+
+    .hero p {
+        font-size: 0.9rem;
+        letter-spacing: 2px;
+    }
+    
+    .hero-content {
+        padding: 20px;
+    }
+    
+    .hero-ctas {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .section-padding {
+        padding: 40px 0;
     }
     
     .booking-search {
         flex-direction: column;
         align-items: stretch;
+        padding: 25px;
+        margin-top: -20px;
+        gap: 15px;
+    }
+    
+    .form-group input, .form-group select, .form-group textarea {
+        font-size: 16px; /* Prevent iOS zoom */
+        min-height: 44px; /* Touch target size */
+    }
+    
+    .btn-primary, .btn-secondary {
+        width: 100%; /* Full width buttons on mobile */
+        min-height: 44px;
+    }
+
+    /* Mobile Navigation (Checkbox Hack) */
+    .desktop-only, .desktop-only-group {
+        display: none !important;
+    }
+    
+    .mobile-only-link {
+        display: block;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        margin-top: 10px;
+        padding-top: 10px;
+    }
+
+    .mobile-menu-btn {
+        display: flex; /* Show hamburger button */
+    }
+
+    .main-nav {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: var(--primary-color);
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    .main-nav ul {
+        flex-direction: column;
+        gap: 0;
+        padding: 0;
+    }
+
+    .main-nav a {
+        display: block;
+        padding: 16px 30px;
+        color: var(--white);
+        font-size: 1rem;
+        min-height: 44px;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .main-nav a:hover {
+        background: rgba(255,255,255,0.05);
+        color: var(--accent-color);
+    }
+
+    /* When checkbox is checked */
+    .mobile-menu-toggle:checked ~ .main-nav {
+        max-height: 600px; /* High enough to show all links */
+    }
+    
+    /* Animate Hamburger to X */
+    .mobile-menu-toggle:checked ~ .mobile-menu-btn span:nth-child(1) {
+        transform: translateY(8px) rotate(45deg);
+        background-color: var(--accent-color);
+    }
+    .mobile-menu-toggle:checked ~ .mobile-menu-btn span:nth-child(2) {
+        opacity: 0;
+    }
+    .mobile-menu-toggle:checked ~ .mobile-menu-btn span:nth-child(3) {
+        transform: translateY(-8px) rotate(-45deg);
+        background-color: var(--accent-color);
     }
 }
 
-@media (max-width: 375px) {
-    .grid-3 {
-        grid-template-columns: 1fr;
-    }
-    
+@media (max-width: 480px) {
     .hero h1 {
         font-size: 2rem;
+    }
+    .logo-box {
+        font-size: 1rem;
+        padding: 6px 12px;
+    }
+    .container {
+        padding: 0 15px;
     }
 }
 

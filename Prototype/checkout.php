@@ -1,31 +1,16 @@
 <?php
-require_once 'includes/db.php';
+require_once 'includes/db_connect.php';
 require_once 'includes/functions.php';
 
 $booking_id = isset($_GET['booking_id']) ? (int)$_GET['booking_id'] : 0;
-$bookings = get_all_data('bookings');
-$booking = null;
-
-foreach($bookings as $b) {
-    if ($b['id'] === $booking_id) {
-        $booking = $b;
-        break;
-    }
-}
+$booking = get_booking($booking_id);
 
 if (!$booking) {
     header('Location: index.php');
     exit;
 }
 
-$rooms = get_all_data('rooms');
-$room = null;
-foreach($rooms as $r) {
-    if ($r['id'] == $booking['room_id']) {
-        $room = $r;
-        break;
-    }
-}
+$room = get_room($booking['room_id']);
 
 if (!$room) {
     header('Location: index.php');
@@ -49,11 +34,11 @@ $service_fee = 500;
 $subtotal = $room_total + $service_fee;
 
 // Calculate amenities charges
-$amenities_selected = isset($booking['amenities']) ? $booking['amenities'] : [];
+$amenities_selected = isset($booking['amenities']) ? (is_string($booking['amenities']) ? json_decode($booking['amenities'], true) : $booking['amenities']) : [];
 $amenities_total = calculate_amenities_total($amenities_selected);
 
 // Calculate dining charges
-$dining_selected = isset($booking['dining']) ? $booking['dining'] : [];
+$dining_selected = isset($booking['dining']) ? (is_string($booking['dining']) ? json_decode($booking['dining'], true) : $booking['dining']) : [];
 $dining_total = calculate_dining_total($dining_selected);
 
 // Calculate tax (12% on subtotal + amenities + dining)
@@ -102,27 +87,39 @@ include 'includes/header.php';
                     <form action="process_payment.php" method="POST" id="payment-form">
                         <input type="hidden" name="booking_id" value="<?php echo $booking_id; ?>">
                         
-                        <div class="payment-options">
-                            <label class="payment-option" style="display: block; padding: 20px; border: 1px solid var(--border-color); margin-bottom: 15px; cursor: pointer; transition: all 0.3s;">
-                                <input type="radio" name="payment_method" value="credit_card" checked>
-                                <strong style="margin-left: 10px; font-family: var(--font-header); letter-spacing: 1px;">Credit Card</strong>
-                                <p style="font-size: 0.8rem; color: var(--secondary-color); margin-top: 5px; margin-left: 28px;">Visa, Mastercard</p>
+                        <div class="payment-options" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <label class="payment-option" style="display: block; padding: 15px; border: 1px solid var(--border-color); cursor: pointer; border-radius: 8px;">
+                                <input type="radio" name="payment_method" value="visa" checked>
+                                <strong style="margin-left: 10px; font-family: var(--font-header); font-size: 0.9rem;">Visa</strong>
                             </label>
-                            
-                            <label class="payment-option" style="display: block; padding: 20px; border: 1px solid var(--border-color); margin-bottom: 15px; cursor: pointer; transition: all 0.3s;">
-                                <input type="radio" name="payment_method" value="ewallet">
-                                <strong style="margin-left: 10px; font-family: var(--font-header); letter-spacing: 1px;">E-Wallets</strong>
-                                <p style="font-size: 0.8rem; color: var(--secondary-color); margin-top: 5px; margin-left: 28px;">GCash, Maya</p>
+                            <label class="payment-option" style="display: block; padding: 15px; border: 1px solid var(--border-color); cursor: pointer; border-radius: 8px;">
+                                <input type="radio" name="payment_method" value="mastercard">
+                                <strong style="margin-left: 10px; font-family: var(--font-header); font-size: 0.9rem;">Mastercard</strong>
                             </label>
-                            
-                            <label class="payment-option" style="display: block; padding: 20px; border: 1px solid var(--border-color); margin-bottom: 15px; cursor: pointer; transition: all 0.3s;">
-                                <input type="radio" name="payment_method" value="cash">
-                                <strong style="margin-left: 10px; font-family: var(--font-header); letter-spacing: 1px;">Cash on Arrival</strong>
-                                <p style="font-size: 0.8rem; color: var(--secondary-color); margin-top: 5px; margin-left: 28px;">Pay at the front desk upon check-in</p>
+                            <label class="payment-option" style="display: block; padding: 15px; border: 1px solid var(--border-color); cursor: pointer; border-radius: 8px;">
+                                <input type="radio" name="payment_method" value="gcash">
+                                <strong style="margin-left: 10px; font-family: var(--font-header); font-size: 0.9rem;">GCash</strong>
+                            </label>
+                            <label class="payment-option" style="display: block; padding: 15px; border: 1px solid var(--border-color); cursor: pointer; border-radius: 8px;">
+                                <input type="radio" name="payment_method" value="maya">
+                                <strong style="margin-left: 10px; font-family: var(--font-header); font-size: 0.9rem;">Maya</strong>
+                            </label>
+                            <label class="payment-option" style="grid-column: 1 / -1; display: block; padding: 15px; border: 1px solid var(--border-color); cursor: pointer; border-radius: 8px;">
+                                <input type="radio" name="payment_method" value="bank_transfer">
+                                <strong style="margin-left: 10px; font-family: var(--font-header); font-size: 0.9rem;">Bank Transfer</strong>
+                            </label>
+                            <label class="payment-option" style="grid-column: 1 / -1; display: block; padding: 15px; border: 1px solid var(--border-color); cursor: pointer; border-radius: 8px;">
+                                <input type="radio" name="payment_method" value="pay_at_hotel">
+                                <strong style="margin-left: 10px; font-family: var(--font-header); font-size: 0.9rem;">Pay at Hotel upon Arrival</strong>
                             </label>
                         </div>
 
-                        <div id="card-details" class="card-details" style="margin-top: 30px; background: var(--bg-light); padding: 30px; border: 1px solid var(--border-color);">
+                        <style>
+                            /* Zero-JS toggle for card details */
+                            #card-details { display: none; margin-top: 30px; background: var(--bg-light); padding: 30px; border: 1px solid var(--border-color); }
+                            #payment-form:has(input[value="visa"]:checked, input[value="mastercard"]:checked) #card-details { display: block; }
+                        </style>
+                        <div id="card-details" class="card-details">
                             <div class="form-group" style="margin-bottom: 20px;">
                                 <label>Cardholder Name</label>
                                 <input type="text" name="card_name" placeholder="Name on card">
@@ -183,7 +180,7 @@ include 'includes/header.php';
                         <span style="font-family: var(--font-header); font-size: 1.8rem; color: var(--accent-color);"><?php echo format_php($grand_total); ?></span>
                     </div>
                     <p style="font-size: 0.8rem; color: var(--secondary-color); margin-top: 20px; text-align: center;">
-                        <a href="totalpaymentpage.php?booking_id=<?php echo $booking_id; ?>" style="color: var(--primary-color); text-decoration: underline;">View Detailed Breakdown →</a>
+                        Thank you for choosing Ralmitrokij Hotel.
                     </p>
                 </div>
             </div>
@@ -191,20 +188,6 @@ include 'includes/header.php';
     </div>
 </section>
 
-<script>
-    // Simple toggle for payment details
-    const paymentForm = document.getElementById('payment-form');
-    const cardDetails = document.getElementById('card-details');
-    
-    paymentForm.addEventListener('change', (e) => {
-        if (e.target.name === 'payment_method') {
-            if (e.target.value === 'credit_card') {
-                cardDetails.style.display = 'block';
-            } else {
-                cardDetails.style.display = 'none';
-            }
-        }
-    });
-</script>
+
 
 <?php include 'includes/footer.php'; ?>

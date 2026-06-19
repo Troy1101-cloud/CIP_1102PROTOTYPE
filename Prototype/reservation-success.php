@@ -1,5 +1,5 @@
 <?php
-require_once 'includes/db.php';
+require_once 'includes/db_connect.php';
 require_once 'includes/functions.php';
 
 $booking_ref = isset($_GET['booking_ref']) ? $_GET['booking_ref'] : '';

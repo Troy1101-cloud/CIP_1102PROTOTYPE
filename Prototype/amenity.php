@@ -1,5 +1,5 @@
 <?php
-require_once 'includes/db.php';
+require_once 'includes/db_connect.php';
 require_once 'includes/functions.php';
 
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 1;
@@ -43,30 +43,27 @@ include 'includes/header.php';
                 <?php endif; ?>
             </div>
 
-            <!-- Testimonials (only for Fitness Center) -->
-            <?php if ($id == 2): ?>
-                <div style="margin-top: 50px;">
-                    <h3 style="font-family: var(--font-header); margin-bottom: 30px;">Guest Testimonials</h3>
-                    
-                    <div class="booking-card" style="text-align: left; margin-bottom: 20px;">
-                        <div style="color: #FFD700; font-size: 1.2rem; margin-bottom: 10px;">★★★★★</div>
-                        <p style="font-style: italic; margin-bottom: 10px;">"The fitness center has top-notch equipment and the trainers are incredibly helpful! Maria assisted me with my workout routine and she was amazing!"</p>
-                        <p style="font-weight: 600;">— Juan D.</p>
-                    </div>
-                    
-                    <div class="booking-card" style="text-align: left; margin-bottom: 20px;">
-                        <div style="color: #FFD700; font-size: 1.2rem; margin-bottom: 10px;">★★★★★</div>
-                        <p style="font-style: italic; margin-bottom: 10px;">"Absolutely love the gym! All equipment is well-maintained and the staff is very accommodating. 10/10 would recommend!"</p>
-                        <p style="font-weight: 600;">— Maria C.</p>
-                    </div>
-                    
-                    <div class="booking-card" style="text-align: left;">
-                        <div style="color: #FFD700; font-size: 1.2rem; margin-bottom: 10px;">★★★★☆</div>
-                        <p style="font-style: italic; margin-bottom: 10px;">"Great facility and very clean! Trainer Kiko was super knowledgeable about proper form."</p>
-                        <p style="font-weight: 600;">— Pedro S.</p>
-                    </div>
+            <div style="margin-top: 50px;">
+                <h3 style="font-family: var(--font-header); margin-bottom: 30px;">Guest Testimonials</h3>
+                
+                <div class="booking-card" style="text-align: left; margin-bottom: 20px;">
+                    <div style="color: #FFD700; font-size: 1.2rem; margin-bottom: 10px;">★★★★★</div>
+                    <p style="font-style: italic; margin-bottom: 10px;">"The <?php echo strtolower(h($item['name'])); ?> has top-notch equipment and the staff are incredibly helpful! I had a wonderful experience."</p>
+                    <p style="font-weight: 600;">— Juan D.</p>
                 </div>
-            <?php endif; ?>
+                
+                <div class="booking-card" style="text-align: left; margin-bottom: 20px;">
+                    <div style="color: #FFD700; font-size: 1.2rem; margin-bottom: 10px;">★★★★★</div>
+                    <p style="font-style: italic; margin-bottom: 10px;">"Absolutely love it! The facilities are well-maintained and the service is very accommodating. 10/10 would recommend!"</p>
+                    <p style="font-weight: 600;">— Maria C.</p>
+                </div>
+                
+                <div class="booking-card" style="text-align: left;">
+                    <div style="color: #FFD700; font-size: 1.2rem; margin-bottom: 10px;">★★★★☆</div>
+                    <p style="font-style: italic; margin-bottom: 10px;">"Great facility and very clean! The whole experience was super relaxing and enjoyable."</p>
+                    <p style="font-weight: 600;">— Pedro S.</p>
+                </div>
+            </div>
             
             <div style="margin-top: 50px;">
                 <a href="index.php#amenities" class="btn-secondary">BACK TO AMENITIES</a>

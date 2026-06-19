@@ -1,5 +1,5 @@
 <?php
-require_once 'includes/db.php';
+require_once 'includes/db_connect.php';
 require_once 'includes/functions.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -7,29 +7,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $payment_method = $_POST['payment_method'];
     $is_simulation = isset($_POST['simulation_complete']) ? true : false;
     
-    // Simulate processing for credit card and e-wallet
-    if (($payment_method === 'credit_card' || $payment_method === 'ewallet') && !$is_simulation) {
+    $online_methods = ['visa', 'mastercard', 'gcash', 'maya', 'bank_transfer'];
+    $is_online = in_array($payment_method, $online_methods);
+    
+    // Simulate processing for online payments
+    if ($is_online && !$is_simulation) {
         // Redirect to simulation page first to mimic the wireframe process
         header("Location: simulate_redirect.php?booking_id=" . $booking_id . "&method=" . $payment_method);
         exit;
     }
 
-    if ($payment_method === 'credit_card' || $payment_method === 'ewallet') {
-        $result = process_payment_mock($_POST);
+    if ($is_online) {
+        $result = simulate_payment($_POST);
         
         if ($result['success']) {
             // Update booking status
-            $bookings = get_all_data('bookings');
-            foreach ($bookings as &$b) {
-                if ($b['id'] === $booking_id) {
-                    $b['payment_status'] = 'paid';
-                    $b['payment_method'] = $payment_method;
-                    $b['transaction_id'] = $result['transaction_id'];
-                    $b['status'] = 'confirmed';
-                    break;
-                }
-            }
-            save_data('bookings', $bookings);
+            $stmt = $pdo->prepare("UPDATE reservations SET payment_method = ?, status = 'confirmed' WHERE id = ?");
+            $stmt->execute([$payment_method, $booking_id]);
             
             header("Location: payment_success.php?id=" . $booking_id);
             exit;
@@ -38,17 +32,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             exit;
         }
     } else {
-        // Cash payment
-        $bookings = get_all_data('bookings');
-        foreach ($bookings as &$b) {
-            if ($b['id'] === $booking_id) {
-                $b['payment_status'] = 'pending';
-                $b['payment_method'] = 'cash';
-                $b['status'] = 'pending_arrival';
-                break;
-            }
-        }
-        save_data('bookings', $bookings);
+        // Pay at Hotel
+        $stmt = $pdo->prepare("UPDATE reservations SET payment_method = 'pay_at_hotel', status = 'confirmed' WHERE id = ?");
+        $stmt->execute([$booking_id]);
         
         header("Location: payment_success.php?id=" . $booking_id . "&method=cash");
         exit;

@@ -1,20 +1,38 @@
 <?php
-session_start();
-if (!isset($_SESSION['admin_logged_in'])) {
-    header('Location: login.php');
-    exit;
-}
-
-require_once '../includes/db.php';
+require_once '../includes/session_init.php';
+require_once '../includes/db_connect.php';
+require_once '../includes/auth_check.php';
 require_once '../includes/functions.php';
 
-$bookings = get_all_data('bookings');
-$rooms = get_all_data('rooms');
+check_auth('admin');
 
-// Mock room lookup
+$stmt = $pdo->query("SELECT * FROM rooms");
+$rooms = $stmt->fetchAll();
 $room_names = [];
 foreach($rooms as $r) {
     $room_names[$r['id']] = $r['name'];
+}
+
+$stmt = $pdo->query("SELECT * FROM reservations ORDER BY created_at DESC");
+$db_reservations = $stmt->fetchAll();
+
+$bookings = [];
+foreach($db_reservations as $r) {
+    $bookings[] = [
+        'id' => str_pad($r['id'], 4, '0', STR_PAD_LEFT),
+        'first_name' => $r['first_name'],
+        'last_name' => $r['last_name'],
+        'email' => $r['email'],
+        'phone' => $r['phone'],
+        'special_requests' => $r['special_requests'],
+        'room_id' => $r['room_id'],
+        'check_in' => $r['check_in'],
+        'check_out' => $r['check_out'],
+        'guests_adults' => $r['guests_adults'],
+        'guests_children' => $r['guests_children'],
+        'guests' => $r['guests_adults'] . ($r['guests_children'] > 0 ? " (+{$r['guests_children']})" : ""),
+        'payment_status' => $r['status'] === 'confirmed' ? 'paid' : ($r['status'] === 'pending' ? 'pending' : 'unpaid')
+    ];
 }
 
 // Handle Filter
@@ -31,6 +49,7 @@ if ($filter_status !== 'all') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard | Ralmitrokij Hotel</title>
+    <link rel="icon" type="image/png" href="../pictures/icon.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -128,8 +147,8 @@ if ($filter_status !== 'all') {
                                         <?php echo h($b['payment_status']); ?>
                                     </span>
                                 </td>
-                                <td>
-                                    <a href="#" class="btn-link" style="font-size: 0.7rem; border-bottom: 1px solid var(--accent-color);">DETAILS</a>
+                                    <?php $b['room_name'] = $room_names[$b['room_id']] ?? 'Unknown'; ?>
+                                    <button type="button" class="btn-link" style="font-size: 0.7rem; border-bottom: 1px solid var(--accent-color); background:none; border:none; cursor:pointer;" onclick='openBookingDetails(<?php echo json_encode($b, JSON_HEX_APOS | JSON_HEX_QUOT); ?>)'>DETAILS</button>
                                 </td>
                             </tr>
                         <?php endforeach; ?>
@@ -138,5 +157,54 @@ if ($filter_status !== 'all') {
             </table>
         </div>
     </main>
+
+    <script>
+    function openBookingDetails(booking) {
+        document.getElementById('modal-guest-name').textContent = booking.first_name + ' ' + booking.last_name;
+        document.getElementById('modal-email').textContent = booking.email;
+        document.getElementById('modal-phone').textContent = booking.phone;
+        document.getElementById('modal-dates').textContent = booking.check_in + ' to ' + booking.check_out;
+        document.getElementById('modal-room').textContent = booking.room_name || ('Room ' + booking.room_id);
+        document.getElementById('modal-guests').textContent = booking.guests_adults + ' Adults, ' + booking.guests_children + ' Children';
+        
+        let requests = booking.special_requests ? booking.special_requests.trim() : 'None';
+        if (requests === '') requests = 'None';
+        document.getElementById('modal-requests').textContent = requests;
+        
+        document.getElementById('booking-details-modal').style.display = 'flex';
+    }
+
+    function closeBookingDetails() {
+        document.getElementById('booking-details-modal').style.display = 'none';
+    }
+    </script>
+
+    <!-- Booking Details Modal -->
+    <div id="booking-details-modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:9999; justify-content:center; align-items:center;">
+        <div style="background:#fff; padding:30px; border-radius:12px; width:90%; max-width:600px; max-height:90vh; overflow-y:auto; position:relative; box-shadow:0 10px 30px rgba(0,0,0,0.2);">
+            <button onclick="closeBookingDetails()" style="position:absolute; top:20px; right:20px; background:none; border:none; font-size:1.5rem; cursor:pointer; color:#666;">&times;</button>
+            <h2 style="font-family:'Playfair Display', serif; color:var(--admin-primary); margin-bottom:20px;">Reservation Details</h2>
+            
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:20px;">
+                <div>
+                    <h4 style="font-size:0.75rem; color:#888; text-transform:uppercase; letter-spacing:1px; margin-bottom:5px;">Guest Info</h4>
+                    <p style="margin-bottom:5px;"><strong id="modal-guest-name" style="font-weight:600; font-size:1.1rem; color:#333;"></strong></p>
+                    <p style="font-size:0.9rem; color:#555; margin-bottom:2px;" id="modal-email"></p>
+                    <p style="font-size:0.9rem; color:#555;" id="modal-phone"></p>
+                </div>
+                <div>
+                    <h4 style="font-size:0.75rem; color:#888; text-transform:uppercase; letter-spacing:1px; margin-bottom:5px;">Stay Info</h4>
+                    <p style="margin-bottom:5px; font-weight:600; color:#333;" id="modal-room"></p>
+                    <p style="font-size:0.9rem; color:#555; margin-bottom:2px;" id="modal-dates"></p>
+                    <p style="font-size:0.9rem; color:#555;" id="modal-guests"></p>
+                </div>
+            </div>
+            
+            <div style="margin-bottom:20px; padding:15px; background:#f9f9f9; border-radius:8px; border:1px solid #eee;">
+                <h4 style="font-size:0.75rem; color:#888; text-transform:uppercase; letter-spacing:1px; margin-bottom:10px;">Special Requests / Notes</h4>
+                <p style="font-size:0.95rem; color:#333; line-height:1.5;" id="modal-requests"></p>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

@@ -1,5 +1,5 @@
 <?php
-require_once 'includes/db.php';
+require_once 'includes/db_connect.php';
 require_once 'includes/functions.php';
 
 $id = isset($_GET['id']) ? (int)$_GET['id'] : 1;
@@ -31,6 +31,28 @@ include 'includes/header.php';
             </p>
             <p>Indulge in a culinary journey at Ralmitrokij Hotel. Our <?php echo strtolower(h($item['name'])); ?> offers a sophisticated atmosphere combined with exceptional service and gourmet creations. We source only the finest ingredients to ensure every meal is a memorable experience for our guests.</p>
             
+            <div style="margin-top: 50px;">
+                <h3 style="font-family: var(--font-header); margin-bottom: 30px;">Guest Testimonials</h3>
+                
+                <div class="booking-card" style="text-align: left; margin-bottom: 20px;">
+                    <div style="color: #FFD700; font-size: 1.2rem; margin-bottom: 10px;">★★★★★</div>
+                    <p style="font-style: italic; margin-bottom: 10px;">"The <?php echo strtolower(h($item['name'])); ?> has amazing food and the staff are incredibly attentive! I had a wonderful dining experience."</p>
+                    <p style="font-weight: 600;">— Juan D.</p>
+                </div>
+                
+                <div class="booking-card" style="text-align: left; margin-bottom: 20px;">
+                    <div style="color: #FFD700; font-size: 1.2rem; margin-bottom: 10px;">★★★★★</div>
+                    <p style="font-style: italic; margin-bottom: 10px;">"Absolutely love the ambiance! The flavors are exquisite and the service is very accommodating. 10/10 would recommend!"</p>
+                    <p style="font-weight: 600;">— Maria C.</p>
+                </div>
+                
+                <div class="booking-card" style="text-align: left;">
+                    <div style="color: #FFD700; font-size: 1.2rem; margin-bottom: 10px;">★★★★☆</div>
+                    <p style="font-style: italic; margin-bottom: 10px;">"Great food and very clean! The whole experience was super relaxing and enjoyable."</p>
+                    <p style="font-weight: 600;">— Pedro S.</p>
+                </div>
+            </div>
+
             <div style="margin-top: 50px;">
                 <a href="index.php#dining" class="btn-secondary">BACK TO DINING</a>
             </div>

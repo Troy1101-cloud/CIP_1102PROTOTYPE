@@ -1,5 +1,5 @@
 <?php
-require_once 'includes/db.php';
+require_once 'includes/db_connect.php';
 require_once 'includes/functions.php';
 
 $success_msg = "";
@@ -15,8 +15,13 @@ if (isset($_POST['submit'])) {
     if (empty($message)) $errors['message'] = "Message is required.";
     
     if (empty($errors)) {
-        // Mock saving contact message
-        $success_msg = "Thank you for your message! We will get back to you shortly.";
+        try {
+            $stmt = $pdo->prepare("INSERT INTO messages (name, email, message) VALUES (?, ?, ?)");
+            $stmt->execute([$name, $email, $message]);
+            $success_msg = "Thank you for your message! We will get back to you shortly.";
+        } catch (PDOException $e) {
+            $errors['system'] = "An error occurred while saving your message. Please try again later.";
+        }
     }
 }
 

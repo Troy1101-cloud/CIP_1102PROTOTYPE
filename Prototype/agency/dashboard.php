@@ -1,6 +1,7 @@
 <?php
 require_once '../includes/session_init.php';
 require_once '../includes/db_connect.php';
+require_once '../includes/functions.php';
 require_once '../includes/auth_check.php';
 
 check_auth('agency');
@@ -42,24 +43,37 @@ if (isset($_POST['create_booking'])) {
     // Generate booking ref
     $booking_ref = 'RM' . date('Ymd') . str_pad(rand(0, 9999), 4, '0', STR_PAD_LEFT);
 
-    // Insert booking
-    $stmt = $pdo->prepare("INSERT INTO reservations (user_id, room_id, first_name, last_name, email, phone, check_in, check_out, guests_adults, guests_children, booking_ref, total_cost, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'confirmed')");
-    $stmt->execute([
-        $user_id,
-        $room_id,
-        $first_name,
-        $last_name,
-        $email,
-        $phone,
-        $check_in,
-        $check_out,
-        $guests_adults,
-        $guests_children,
-        $booking_ref,
-        $total_cost
-    ]);
+    // Calculate commission earned at time of booking
+    $commission_earned = $total_cost * ($agency['commission_rate'] / 100);
 
-    add_audit_log('agency_booking', "Agency created booking with ref $booking_ref");
+    if ($check_out <= $check_in) {
+        $error_message = "Check-out date must be after check-in date.";
+    } elseif (!is_room_available($pdo, $room_id, $check_in, $check_out)) {
+        $error_message = "The selected room is not available for these dates.";
+    } else {
+        // Insert booking
+        $special_requests = $_POST['special_requests'] ?? null;
+        $stmt = $pdo->prepare("INSERT INTO reservations (user_id, source, room_id, first_name, last_name, email, phone, check_in, check_out, guests_adults, guests_children, special_requests, booking_ref, total_cost, commission_earned, status) VALUES (?, 'agency', ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'confirmed')");
+        $stmt->execute([
+            $user_id,
+            $room_id,
+            $first_name,
+            $last_name,
+            $email,
+            $phone,
+            $check_in,
+            $check_out,
+            $guests_adults,
+            $guests_children,
+            $special_requests,
+            $booking_ref,
+            $total_cost,
+            $commission_earned
+        ]);
+
+        add_audit_log('agency_booking', "Agency created booking with ref $booking_ref");
+        $success_message = "Booking created successfully!";
+    }
 }
 
 // Get agency's bookings
@@ -69,10 +83,11 @@ $bookings = $stmt->fetchAll();
 
 // Calculate total commission
 $total_commission = 0;
-$commission_rate = $agency['commission_rate'] / 100;
 foreach ($bookings as $booking) {
-    if ($booking['status'] === 'checked_out') {
-        $total_commission += $booking['total_cost'] * $commission_rate;
+    if (in_array($booking['status'], ['confirmed', 'checked_in', 'checked_out'])) {
+        $total_commission += isset($booking['commission_earned']) && $booking['commission_earned'] > 0 
+            ? $booking['commission_earned'] 
+            : ($booking['total_cost'] * ($agency['commission_rate'] / 100));
     }
 }
 
@@ -86,6 +101,7 @@ $rooms = $stmt->fetchAll();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agency Dashboard | Ralmitrokij Hotel</title>
+    <link rel="icon" type="image/png" href="../pictures/icon.png">
     <link rel="stylesheet" href="../assets/css/styles.css?v=<?php echo time(); ?>">
     <style>
         :root {
@@ -358,6 +374,21 @@ $rooms = $stmt->fetchAll();
             grid-template-columns:1fr 1fr;
             gap:20px;
         }
+        .alert-warning, .alert-success {
+            padding:15px 20px;
+            border-radius:8px;
+            margin-bottom:30px;
+        }
+        .alert-warning {
+            background: rgba(255,193,7,0.1);
+            color:#856404;
+            border-left:4px solid #ffc107;
+        }
+        .alert-success {
+            background: rgba(40,167,69,0.1);
+            color:#155724;
+            border-left:4px solid #28a745;
+        }
         @media (max-width: 992px) {
             .grid-2 { grid-template-columns:1fr; }
         }
@@ -378,12 +409,19 @@ $rooms = $stmt->fetchAll();
             </nav>
             <div class="header-actions">
                 <div class="user-info"><?php echo htmlspecialchars($agency['agency_name'] ?? $_SESSION['full_name']); ?> (Agency)</div>
-                <a href="../index.php" class="logout-btn">Back to Site</a>
+                <a href="logout.php" class="logout-btn">LOGOUT</a>
             </div>
         </div>
     </header>
 
     <main class="dashboard-container">
+        <?php if (isset($success_message)): ?>
+            <div class="alert-success"><?php echo $success_message; ?></div>
+        <?php endif; ?>
+        <?php if (isset($error_message)): ?>
+            <div class="alert-warning"><?php echo $error_message; ?></div>
+        <?php endif; ?>
+
         <?php if ($current_tab === 'overview'): ?>
             <div class="page-header">
                 <span class="breadcrumb">Partner Dashboard &rsaquo; Overview</span>
@@ -407,18 +445,24 @@ $rooms = $stmt->fetchAll();
             </div>
 
             <div class="glassmorphism-card">
-                <div class="section-title">
-                    <h3>Recent Bookings</h3>
-                    <p>Your last 5 bookings</p>
+                <div class="section-title" style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 15px;">
+                    <div>
+                        <h3>Recent Bookings</h3>
+                        <p>Your last 5 bookings</p>
+                    </div>
+                    <div>
+                        <input type="text" id="recentSearch" placeholder="Search Ref or Name..." style="padding: 8px 12px; border-radius: 6px; border: 1px solid var(--admin-border); font-family: 'Montserrat', sans-serif; font-size: 0.85rem; width: 200px;">
+                    </div>
                 </div>
                 <div class="data-table-container">
-                    <table class="data-table">
+                    <table class="data-table" id="recentTable">
                         <thead>
                             <tr>
                                 <th>Booking Ref</th>
                                 <th>Guest Name</th>
                                 <th>Room</th>
                                 <th>Stay Dates</th>
+                                <th>Guests</th>
                                 <th>Total</th>
                                 <th>Status</th>
                             </tr>
@@ -430,6 +474,11 @@ $rooms = $stmt->fetchAll();
                                     <td><?php echo htmlspecialchars($booking['first_name'] . ' ' . $booking['last_name']); ?></td>
                                     <td><?php echo htmlspecialchars($booking['room_name']); ?></td>
                                     <td><?php echo htmlspecialchars($booking['check_in'] . ' - ' . $booking['check_out']); ?></td>
+                                    <td><?php echo htmlspecialchars($booking['guests_adults']) . ' Adults'; ?>
+                                        <?php if ($booking['guests_children'] > 0): ?>
+                                            , <?php echo htmlspecialchars($booking['guests_children']); ?> Children
+                                        <?php endif; ?>
+                                    </td>
                                     <td>₱<?php echo number_format($booking['total_cost'], 2); ?></td>
                                     <td><span class="status-badge status-<?php echo $booking['status']; ?>"><?php echo htmlspecialchars($booking['status']); ?></span></td>
                                 </tr>
@@ -447,14 +496,18 @@ $rooms = $stmt->fetchAll();
             </div>
 
             <div class="glassmorphism-card">
+                <div style="margin-bottom: 20px;">
+                    <input type="text" id="bookingSearch" placeholder="Search by Booking Ref or Guest Name..." style="width: 100%; max-width: 400px; padding: 10px 15px; border-radius: 8px; border: 1px solid var(--admin-border); font-family: 'Montserrat', sans-serif; font-size: 0.95rem;">
+                </div>
                 <div class="data-table-container">
-                    <table class="data-table">
+                    <table class="data-table" id="bookingsTable">
                         <thead>
                             <tr>
                                 <th>Booking Ref</th>
                                 <th>Guest Name</th>
                                 <th>Room</th>
                                 <th>Stay Dates</th>
+                                <th>Guests</th>
                                 <th>Total</th>
                                 <th>Commission (<?php echo $agency['commission_rate']; ?>%)</th>
                                 <th>Status</th>
@@ -467,8 +520,18 @@ $rooms = $stmt->fetchAll();
                                     <td><?php echo htmlspecialchars($booking['first_name'] . ' ' . $booking['last_name']); ?></td>
                                     <td><?php echo htmlspecialchars($booking['room_name']); ?></td>
                                     <td><?php echo htmlspecialchars($booking['check_in'] . ' - ' . $booking['check_out']); ?></td>
+                                    <td><?php echo htmlspecialchars($booking['guests_adults']) . ' Adults'; ?>
+                                        <?php if ($booking['guests_children'] > 0): ?>
+                                            , <?php echo htmlspecialchars($booking['guests_children']); ?> Children
+                                        <?php endif; ?>
+                                    </td>
                                     <td>₱<?php echo number_format($booking['total_cost'], 2); ?></td>
-                                    <td>₱<?php echo number_format($booking['total_cost'] * $commission_rate, 2); ?></td>
+                                    <td>₱<?php 
+                                        $display_commission = isset($booking['commission_earned']) && $booking['commission_earned'] > 0 
+                                            ? $booking['commission_earned'] 
+                                            : ($booking['total_cost'] * ($agency['commission_rate'] / 100));
+                                        echo number_format($display_commission, 2); 
+                                    ?></td>
                                     <td><span class="status-badge status-<?php echo $booking['status']; ?>"><?php echo htmlspecialchars($booking['status']); ?></span></td>
                                 </tr>
                             <?php endforeach; ?>
@@ -518,19 +581,26 @@ $rooms = $stmt->fetchAll();
                         <div class="form-group">
                             <label for="room_id">Select Room</label>
                             <select id="room_id" name="room_id" required>
-                                <?php foreach ($rooms as $room): ?>
-                                    <option value="<?php echo $room['id']; ?>"><?php echo htmlspecialchars($room['name']); ?> - ₱<?php echo number_format($room['price'], 2); ?>/night</option>
+                                <?php foreach ($rooms as $r): ?>
+                                    <?php
+                                        $qty = $r['quantity'] ?? 1;
+                                        $stmt = $pdo->prepare("SELECT COUNT(*) as count FROM reservations WHERE room_id = ? AND status NOT IN ('cancelled', 'checked_out', 'checked-out') AND check_in <= ? AND check_out > ?");
+                                        $stmt->execute([$r['id'], date('Y-m-d'), date('Y-m-d')]);
+                                        $booked_today = $stmt->fetch()['count'];
+                                        $avail = max(0, $qty - $booked_today);
+                                    ?>
+                                    <option value="<?php echo $r['id']; ?>" <?php echo $avail <= 0 ? 'disabled' : ''; ?>><?php echo htmlspecialchars($r['name']); ?> (₱<?php echo number_format($r['price'], 2); ?>) - <?php echo $avail; ?>/<?php echo $qty; ?> Available Now</option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
                         <div></div>
                         <div class="form-group">
                             <label for="check_in">Check In Date</label>
-                            <input type="date" id="check_in" name="check_in" required>
+                            <input type="date" id="check_in" name="check_in" min="<?php echo date('Y-m-d'); ?>" required>
                         </div>
                         <div class="form-group">
                             <label for="check_out">Check Out Date</label>
-                            <input type="date" id="check_out" name="check_out" required>
+                            <input type="date" id="check_out" name="check_out" min="<?php echo date('Y-m-d'); ?>" required>
                         </div>
                     </div>
                     <div class="grid-2">
@@ -543,6 +613,10 @@ $rooms = $stmt->fetchAll();
                             <input type="number" id="guests_children" name="guests_children" value="0" min="0" required>
                         </div>
                     </div>
+                    <div class="form-group">
+                        <label for="special_requests">Special Requests (Optional)</label>
+                        <textarea id="special_requests" name="special_requests" rows="3" placeholder="Any special requests (e.g., extra bed, early check-in)..."></textarea>
+                    </div>
                     <div class="btn-center">
                         <button type="submit" name="create_booking" class="btn-primary">Create Booking</button>
                     </div>
@@ -550,5 +624,46 @@ $rooms = $stmt->fetchAll();
             </div>
         <?php endif; ?>
     </main>
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Main bookings search
+        const searchInput = document.getElementById('bookingSearch');
+        if (searchInput) {
+            searchInput.addEventListener('keyup', function() {
+                const filter = this.value.toLowerCase();
+                const rows = document.querySelectorAll('#bookingsTable tbody tr');
+                
+                rows.forEach(row => {
+                    const ref = row.cells[0].textContent.toLowerCase();
+                    const name = row.cells[1].textContent.toLowerCase();
+                    if (ref.includes(filter) || name.includes(filter)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+        }
+
+        // Recent bookings search
+        const recentSearch = document.getElementById('recentSearch');
+        if (recentSearch) {
+            recentSearch.addEventListener('keyup', function() {
+                const filter = this.value.toLowerCase();
+                const rows = document.querySelectorAll('#recentTable tbody tr');
+                
+                rows.forEach(row => {
+                    const ref = row.cells[0].textContent.toLowerCase();
+                    const name = row.cells[1].textContent.toLowerCase();
+                    if (ref.includes(filter) || name.includes(filter)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+        }
+    });
+    </script>
 </body>
 </html>

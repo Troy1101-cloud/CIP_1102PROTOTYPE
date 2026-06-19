@@ -1,5 +1,5 @@
 <?php
-require_once 'includes/db.php';
+require_once 'includes/db_connect.php';
 require_once 'includes/functions.php';
 
 // Get booking ID
@@ -124,31 +124,31 @@ include 'includes/header.php';
                     </div>
                     <form id="payment-methods-form" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
                         <label class="payment-option-card" style="padding: 15px; border: 2px solid #eee; border-radius: 8px; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; gap: 10px;">
-                            <input type="radio" name="payment_method" value="gcash" checked>
+                            <input type="radio" name="payment_method" value="gcash" form="submit_form" checked>
                             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/GCash_logo.svg/1200px-GCash_logo.svg.png" alt="GCash" style="width: 60px; height: auto;">
                             <strong>GCash</strong>
                         </label>
                         <label class="payment-option-card" style="padding: 15px; border: 2px solid #eee; border-radius: 8px; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; gap: 10px;">
-                            <input type="radio" name="payment_method" value="maya">
+                            <input type="radio" name="payment_method" value="maya" form="submit_form">
                             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Maya_logo.svg/1200px-Maya_logo.svg.png" alt="Maya" style="width: 60px; height: auto;">
                             <strong>Maya</strong>
                         </label>
                         <label class="payment-option-card" style="padding: 15px; border: 2px solid #eee; border-radius: 8px; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; gap: 10px;">
-                            <input type="radio" name="payment_method" value="visa">
+                            <input type="radio" name="payment_method" value="visa" form="submit_form">
                             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Visa_Inc._logo.svg/1200px-Visa_Inc._logo.svg.png" alt="Visa" style="width: 60px; height: auto;">
                             <strong>Visa</strong>
                         </label>
                         <label class="payment-option-card" style="padding: 15px; border: 2px solid #eee; border-radius: 8px; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; gap: 10px;">
-                            <input type="radio" name="payment_method" value="mastercard">
+                            <input type="radio" name="payment_method" value="mastercard" form="submit_form">
                             <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Mastercard-logo.svg/1200px-Mastercard-logo.svg.png" alt="Mastercard" style="width: 60px; height: auto;">
                             <strong>Mastercard</strong>
                         </label>
                         <label class="payment-option-card" style="padding: 15px; border: 2px solid #eee; border-radius: 8px; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; gap: 10px; grid-column: 1 / -1;">
-                            <input type="radio" name="payment_method" value="bank_transfer">
+                            <input type="radio" name="payment_method" value="bank_transfer" form="submit_form">
                             <strong>Bank Transfer</strong>
                         </label>
                         <label class="payment-option-card" style="padding: 15px; border: 2px solid #eee; border-radius: 8px; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; gap: 10px; grid-column: 1 / -1;">
-                            <input type="radio" name="payment_method" value="pay_at_hotel">
+                            <input type="radio" name="payment_method" value="pay_at_hotel" form="submit_form">
                             <strong>Pay at Hotel</strong>
                         </label>
                     </form>
@@ -205,10 +205,10 @@ include 'includes/header.php';
                         <p style="font-weight: 600; margin-bottom: 5px;">Booking Reference Number</p>
                         <p style="font-size: 1.2rem; color: var(--primary-color);"><?php echo $booking_ref; ?></p>
                     </div>
-                    <form action="process-submit-reservation.php" method="POST">
+                    <form id="submit_form" action="process-submit-reservation.php" method="POST">
                         <input type="hidden" name="booking_id" value="<?php echo $booking_id; ?>">
                         <input type="hidden" name="booking_ref" value="<?php echo $booking_ref; ?>">
-                        <input type="hidden" name="payment_method" id="selected_payment_method" value="gcash">
+
                         <div style="text-align: center;">
                             <button type="submit" name="submit_reservation" class="btn-primary" style="width: 100%; padding: 18px; font-size: 1.1rem;">
                                 Submit Reservation
@@ -258,13 +258,6 @@ include 'includes/header.php';
     }
 </style>
 
-<script>
-    // Update selected payment method in hidden field
-    document.getElementById('payment-methods-form').addEventListener('change', function(e) {
-        if (e.target.name === 'payment_method') {
-            document.getElementById('selected_payment_method').value = e.target.value;
-        }
-    });
-</script>
+
 
 <?php include 'includes/footer.php'; ?>

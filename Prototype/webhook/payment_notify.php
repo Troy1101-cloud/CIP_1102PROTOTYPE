@@ -3,7 +3,7 @@
  * Mock Webhook Handler
  * Simulates an external payment provider notifying the system of a payment update.
  */
-require_once '../includes/db.php';
+require_once '../includes/db_connect.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $payload = json_decode(file_get_contents('php://input'), true);
@@ -12,22 +12,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $booking_id = (int)$payload['booking_id'];
         $status = $payload['status']; // e.g., 'paid', 'failed'
         
-        $bookings = get_all_data('bookings');
-        $updated = false;
+        $db_status = ($status === 'paid') ? 'confirmed' : 'pending';
         
-        foreach ($bookings as &$b) {
-            if ($b['id'] === $booking_id) {
-                $b['payment_status'] = $status;
-                if ($status === 'paid') {
-                    $b['status'] = 'confirmed';
-                }
-                $updated = true;
-                break;
-            }
-        }
+        $stmt = $pdo->prepare("UPDATE reservations SET status = ? WHERE id = ?");
+        $stmt->execute([$db_status, $booking_id]);
         
-        if ($updated) {
-            save_data('bookings', $bookings);
+        if ($stmt->rowCount() > 0) {
             http_response_code(200);
             echo json_encode(['message' => 'Booking updated successfully']);
         } else {

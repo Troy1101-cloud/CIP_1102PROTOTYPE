@@ -15,7 +15,7 @@ function check_auth($required_role = null) {
 }
 
 // Get current user data
-function get_current_user() {
+function get_logged_in_user_data() {
     global $pdo;
     if (!isset($_SESSION['user_id'])) {
         return null;
@@ -28,11 +28,6 @@ function get_current_user() {
 
 // Add audit log
 function add_audit_log($action, $details = '') {
-    global $pdo;
-    $user_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
-    $ip_address = $_SERVER['REMOTE_ADDR'] ?? '';
-
-    $stmt = $pdo->prepare("INSERT INTO audit_logs (user_id, action, details, ip_address) VALUES (?, ?, ?, ?)");
-    $stmt->execute([$user_id, $action, $details, $ip_address]);
+    // Disabled at user request
 }
 ?>

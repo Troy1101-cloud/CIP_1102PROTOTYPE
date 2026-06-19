@@ -1,5 +1,5 @@
 <?php
-require_once 'includes/db.php';
+require_once 'includes/db_connect.php';
 require_once 'includes/functions.php';
 
 $booking_id = isset($_GET['booking_id']) ? (int)$_GET['booking_id'] : 0;

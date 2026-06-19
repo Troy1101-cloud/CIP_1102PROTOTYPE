@@ -1,5 +1,5 @@
 <?php
-require_once 'includes/db.php';
+require_once 'includes/db_connect.php';
 require_once 'includes/functions.php';
 
 // Fetch all data
@@ -138,7 +138,7 @@ include 'includes/header.php';
                                     </td>
                                     <td style="text-align: center; font-weight: 600;"><?php echo $count; ?></td>
                                     <td style="text-align: right; color: var(--secondary-color);">
-                                        <?php echo $amenities[$am_id]['price'] > 0 ? format_php($amenities[$am_id]['price']) : '<span style="color: var(--accent-color);">FREE</span>'; ?>
+                                        <?php echo $amenities[$am_id]['price'] > 0 ? format_php($amenities[$am_id]['price']) : '<span style="color: var(--secondary-color);">Included</span>'; ?>
                                     </td>
                                 </tr>
                                 <?php endif; ?>

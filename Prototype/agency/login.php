@@ -9,16 +9,16 @@ if (isset($_POST['login'])) {
     $email = trim($_POST['email']);
     $password = $_POST['password'];
 
-    $stmt = $pdo->prepare("INSERT INTO failed_logins (email, ip_address) VALUES (?, ?)");
-    $stmt->execute([$email, $_SERVER['REMOTE_ADDR'] ?? '']);
+    // $stmt = $pdo->prepare("INSERT INTO failed_logins (email, ip_address) VALUES (?, ?)");
+    // $stmt->execute([$email, $_SERVER['REMOTE_ADDR'] ?? '']);
 
     $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ? AND role = 'agency'");
     $stmt->execute([$email]);
     $user = $stmt->fetch();
 
-    if ($user && password_verify($password, $user['password_hash'])) {
-        $stmt = $pdo->prepare("DELETE FROM failed_logins WHERE email = ?");
-        $stmt->execute([$email]);
+    if ($user && $password === $user['password']) {
+        // $stmt = $pdo->prepare("DELETE FROM failed_logins WHERE email = ?");
+        // $stmt->execute([$email]);
 
         $_SESSION['user_id'] = $user['id'];
         $_SESSION['role'] = $user['role'];
@@ -40,6 +40,7 @@ if (isset($_POST['login'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agency Login | Ralmitrokij Hotel</title>
+    <link rel="icon" type="image/png" href="../pictures/icon.png">
     <link rel="stylesheet" href="../assets/css/styles.css?v=<?php echo time(); ?>">
     <style>
         body {
@@ -159,7 +160,7 @@ if (isset($_POST['login'])) {
             <form method="POST">
                 <div class="form-group">
                     <label for="email">Email Address</label>
-                    <input type="email" id="email" name="email" required placeholder="agency@example.com">
+                    <input type="text" id="email" name="email" required placeholder="admin">
                 </div>
                 
                 <div class="form-group">

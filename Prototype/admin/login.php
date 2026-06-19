@@ -9,19 +9,19 @@ if (isset($_POST['login'])) {
     $email = trim($_POST['email']);
     $password = $_POST['password'];
 
-    // Track failed login attempt
-    $stmt = $pdo->prepare("INSERT INTO failed_logins (email, ip_address) VALUES (?, ?)");
-    $stmt->execute([$email, $_SERVER['REMOTE_ADDR'] ?? '']);
+    // Track failed login attempt (Disabled)
+    // $stmt = $pdo->prepare("INSERT INTO failed_logins (email, ip_address) VALUES (?, ?)");
+    // $stmt->execute([$email, $_SERVER['REMOTE_ADDR'] ?? '']);
 
     // Get user from database
     $stmt = $pdo->prepare("SELECT * FROM users WHERE email = ? AND role = 'admin'");
     $stmt->execute([$email]);
     $user = $stmt->fetch();
 
-    if ($user && password_verify($password, $user['password_hash'])) {
-        // Clear failed logins for this email
-        $stmt = $pdo->prepare("DELETE FROM failed_logins WHERE email = ?");
-        $stmt->execute([$email]);
+    if ($user && $password === $user['password']) {
+        // Clear failed logins for this email (Disabled)
+        // $stmt = $pdo->prepare("DELETE FROM failed_logins WHERE email = ?");
+        // $stmt->execute([$email]);
 
         // Set session
         $_SESSION['user_id'] = $user['id'];
@@ -45,6 +45,7 @@ if (isset($_POST['login'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Login | Ralmitrokij Hotel</title>
+    <link rel="icon" type="image/png" href="../pictures/icon.png">
     <link rel="stylesheet" href="../assets/css/styles.css?v=<?php echo time(); ?>">
     <style>
         .glassmorphism-card {
@@ -83,7 +84,7 @@ if (isset($_POST['login'])) {
             <form action="login.php" method="POST">
                 <div class="form-group" style="margin-bottom: 20px;">
                     <label for="email" style="font-size: 0.8rem; letter-spacing: 1px; text-transform: uppercase; font-weight: 600; display: block; margin-bottom: 8px;">Email Address</label>
-                    <input type="email" id="email" name="email" placeholder="admin@ralmitrokij.com" required class="glassmorphism-input" style="width: 100%; padding: 14px 16px; font-size: 1rem;">
+                    <input type="text" id="email" name="email" placeholder="admin" required class="glassmorphism-input" style="width: 100%; padding: 14px 16px; font-size: 1rem;">
                 </div>
                 
                 <div class="form-group" style="margin-bottom: 30px;">
